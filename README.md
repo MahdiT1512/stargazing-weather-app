@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Auto-generated code modified by Corey Ford (c.j.ford@qmul.ac.uk) for Queen Mary University of London's Graphical User Interfaces Course.  
+
 ## Available Scripts
 
 In the project directory, you can run:
