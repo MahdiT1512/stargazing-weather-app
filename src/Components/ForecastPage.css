@@ -195,14 +195,6 @@
     text-align: center;
   }
   
-  /* 
-    ~~~~~~~~~~~~~~~~~~~~~
-    The next classes match your Figma specs
-    for time, date, temp, wind speed, visibility, etc.
-    Make sure you add these classNames in your JSX!
-    ~~~~~~~~~~~~~~~~~~~~~
-  */
-  
   /* Forecast Card - Time */
   .forecast-time {
     /* "time display: flex; padding: 0rem 5rem; ... " */
@@ -311,7 +303,11 @@
     font-weight: 700;
     line-height: normal;
   }
-  
+  .unit {
+    font-size: 0.6em; /* Smaller than the main number */
+    vertical-align: super; /* Moves it up slightly */
+    opacity: 0.8; /* Optional: makes it a bit lighter */
+  }
   /* Forecast Card - Visibility value (e.g. "Good") */
   .visibility-value {
     /* "visibility value: display: flex; height: 4.375rem; ... " */

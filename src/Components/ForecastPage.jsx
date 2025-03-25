@@ -23,25 +23,25 @@ const ForecastPage = () => {
         <h2>Stargazing Conditions</h2>
         <div className="conditions-cards">
           <ConditionCard
-            iconSrc="/images/cloud-cover-icon.png" 
             title="Cloud Cover"
             value="5%"
             subtitle="Clear Sky"
+            iconSrc="../Assets/Haze.png" 
           />
           <ConditionCard
-            iconSrc="/images/moon-phase-icon.png"
+            iconSrc="../Assets/Icon.png"
             title="Moon Phase"
             value="New Moon"
             subtitle="Minimal Moonlight (Optimal)"
           />
           <ConditionCard
-            iconSrc="/images/transparency-icon.png"
+            iconSrc="/Assets/Haze.png"
             title="Transparency"
             value="High"
             subtitle="Good for Deep-sky Viewing"
           />
           <ConditionCard
-            iconSrc="/images/seeing-icon.png"
+            imgSrc="../Assets/Icon.png"
             title="Seeing"
             value="4/5"
             subtitle="Stable Atmosphere (Optimal)"
