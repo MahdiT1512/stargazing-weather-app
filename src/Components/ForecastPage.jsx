@@ -2,7 +2,7 @@ import React from 'react';
 import Navbar from './Navbar';
 import ConditionCard from './ConditionCard';
 import ForecastCard from './ForecastCard';
-
+import Haze from '../Assets/Haze.png';
 const ForecastPage = () => {
   return (
     <div className="forecast-page">
@@ -26,7 +26,7 @@ const ForecastPage = () => {
             title="Cloud Cover"
             value="5%"
             subtitle="Clear Sky"
-            iconSrc="../Assets/Haze.png" 
+            iconSrc = 'Haze'
           />
           <ConditionCard
             iconSrc="../Assets/Icon.png"
@@ -35,7 +35,7 @@ const ForecastPage = () => {
             subtitle="Minimal Moonlight (Optimal)"
           />
           <ConditionCard
-            iconSrc="/Assets/Haze.png"
+            iconSrc= "../Assets/Haze.png"
             title="Transparency"
             value="High"
             subtitle="Good for Deep-sky Viewing"

@@ -20,12 +20,11 @@
   /* ========== NAVBAR ========== */
   .navbar {
     display: flex;
-    width: 100%;
-    height: 4.375rem; /* ~70px */
-    justify-content: space-between;
-    align-items: center;
-    background: #121826;
-    padding: 0 2rem;
+width: 90rem;
+height: 4.375rem;
+justify-content: space-between;
+align-items: center;
+flex-shrink: 0;
   }
   
   .logo {
@@ -62,19 +61,26 @@
   
   /* ========== SEARCH BAR ========== */
   .search-bar {
-    margin-top: 1.5rem;
-    width: 60%;
     display: flex;
-    justify-content: center;
+width: 62.5rem;
+height: 3.125rem;
+justify-content: center;
+align-items: center;
+flex-shrink: 0;
+border-radius: 1.25rem;
+background: #FFF;
   }
   
   .location-input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border-radius: 4px;
-    border: none;
-    outline: none;
-    font-size: 1rem;
+    width: 62.5rem;
+    color: #000;
+
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
   }
   
   /* ========== STARGAZING CONDITIONS ========== */
@@ -93,43 +99,76 @@
   
   .conditions-cards {
     display: flex;
+    width: 78.125rem;
     justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    row-gap: 1.9375rem;
     flex-wrap: wrap;
-    gap: 1rem;
-    width: 100%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
   
   /* Individual Condition Cards */
   .condition-card {
-    background: #1B1F29;
-    width: 18.75rem;   /* 300px */
-    height: 12.5rem;   /* 200px */
+    background: #1b1f29;
+    width: 18.75rem; /* 300px */
+    height: 12.5rem; /* 200px */
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* For a bit more alignment control: */
     align-items: center; 
     text-align: center;
   }
   
+  /* Title */
   .condition-card h3 {
     margin-bottom: 0.5rem;
-    font-size: 1.25rem; /* example size */
+    font-size: 1.25rem;
   }
   
+  /* Icon and Value Wrapper */
+  .condition-info {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  /* Icon */
+  .condition-icon-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 7.5rem;
+  }
+  
+  .condition-icon {
+    width: 60px; /* Adjust based on your actual icon sizes */
+    height: auto;
+  }
+  
+  /* Value */
   .condition-value {
-    font-size: 1.4rem;
-    font-weight: bold;
+    color: #fff;
+    font-family: Inter, sans-serif;
+    font-size: 3.125rem;
+    font-weight: 700;
+    line-height: normal;
   }
   
+  /* Subtitle */
   .condition-subtitle {
-    font-size: 0.9rem;
-    color: #a0a0a0;
+    color: #808080;
+    text-align: center;
+    font-family: Inter;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    line-height: normal;
   }
-  
   /* ========== TONIGHT'S CONDITIONS ========== */
   .tonights-conditions {
     width: 80%;
@@ -194,6 +233,14 @@
     gap: 0.5rem;         /* spacing between elements */
     text-align: center;
   }
+  
+  /* 
+    ~~~~~~~~~~~~~~~~~~~~~
+    The next classes match your Figma specs
+    for time, date, temp, wind speed, visibility, etc.
+    Make sure you add these classNames in your JSX!
+    ~~~~~~~~~~~~~~~~~~~~~
+  */
   
   /* Forecast Card - Time */
   .forecast-time {
