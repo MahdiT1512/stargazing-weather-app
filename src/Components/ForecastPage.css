@@ -3,36 +3,58 @@
     padding: 0;
     box-sizing: border-box;
   }
+
   
   /* ========== FORECAST PAGE CONTAINER ========== */
   .forecast-page {
-    /* Figma gradient background & sizing */
+    
     width: 100%;
-    min-height: 100vh; /* Use min-height so content can expand */
+    min-height: 100vh; 
     background: linear-gradient(180deg, #0A0F1E 0%, #121826 50%, #000 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #fff;
-    font-family: Inter, sans-serif; /* or Montserrat if you prefer for the entire page */
+    font-family: Inter, sans-serif; 
   }
   
   /* ========== NAVBAR ========== */
   .navbar {
     display: flex;
-width: 90rem;
-height: 4.375rem;
-justify-content: space-between;
-align-items: center;
-flex-shrink: 0;
+    width: 90rem;
+    height: 4.375rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
+  }
+
+  .logo{
+    display: flex;
+    width: 25rem;
+    padding: 0.875rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
   }
   
-  .logo {
-    font-size: 1.5rem;
-    font-weight: bold;
+  .logo-name {
+   display: flex;
+   text-align: center;
+   font-family: 'Montserrat', sans-serif;
+   font-size: 1.65rem;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+  }
+  .logo-image{
+    max-width: 3.5rem;
+    height: 3.8125rem;
+    flex-shrink: 0;
+    
   }
   
-  /* Nav links with Figma specs */
+
   .nav-links {
     display: flex;
     gap: 2rem;
@@ -40,52 +62,59 @@ flex-shrink: 0;
   }
   
   .nav-links a {
-    color: #C0C0C0;                /* Figma color */
-    text-align: center;            /* Figma align */
+    color: #C0C0C0;                
+    text-align: center;           
     font-family: Montserrat, sans-serif; 
-    font-size: 1.25rem;            /* Figma font-size */
+    font-size: 1.25rem;            
     font-style: normal;
-    font-weight: 400;              /* Figma weight */
+    font-weight: 400;             
     line-height: normal;
     text-decoration: none;
+    padding: 3.5rem;
   }
   
   .login-btn {
-    background: #1a73e8;
+    background: #1f78ec;
     color: #fff;
     border: none;
+    max-width: 16rem;
     padding: 0.875rem 1.3125rem;
-    border-radius: 4px;
+    border-radius: 4rem;
     cursor: pointer;
   }
   
   /* ========== SEARCH BAR ========== */
   .search-bar {
     display: flex;
-width: 62.5rem;
-height: 3.125rem;
-justify-content: center;
-align-items: center;
-flex-shrink: 0;
-border-radius: 1.25rem;
-background: #FFF;
-  }
+    width: 62.5rem;
+    min-height: 3.125rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    border-radius: 1.25rem;
+    background: #FFF;
+    }
   
   .location-input {
-    width: 62.5rem;
+    width: 55.5rem;
     color: #000;
-
-  text-align: center;
-  font-family: Montserrat, sans-serif;
-  font-size: 1.25rem;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+    text-align: center;
+    font-family: Montserrat, sans-serif;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    border: none;
+  }
+  .search-img{
+    width: 2.8125rem;
+   height: 2.1875rem;
+   aspect-ratio: 9/7;
   }
   
   /* ========== STARGAZING CONDITIONS ========== */
   .stargazing-conditions {
-    width: 80%;
+    max-width: 80%;
     margin-top: 2rem;
     display: flex;
     flex-direction: column;
@@ -99,11 +128,11 @@ background: #FFF;
   
   .conditions-cards {
     display: flex;
-    width: 78.125rem;
+    width: 76.125rem;
     justify-content: space-between;
     align-items: center;
     align-content: center;
-    row-gap: 1.9375rem;
+    row-gap: 3.9375rem;
     flex-wrap: wrap;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
@@ -111,8 +140,8 @@ background: #FFF;
   /* Individual Condition Cards */
   .condition-card {
     background: #1b1f29;
-    width: 18.75rem; /* 300px */
-    height: 12.5rem; /* 200px */
+    max-width: 18.75rem; 
+    height: 12.5rem; 
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -123,13 +152,13 @@ background: #FFF;
     text-align: center;
   }
   
-  /* Title */
+
   .condition-card h3 {
     margin-bottom: 0.5rem;
     font-size: 1.25rem;
   }
   
-  /* Icon and Value Wrapper */
+
   .condition-info {
     display: flex;
     width: 100%;
@@ -138,7 +167,7 @@ background: #FFF;
     gap: 1rem;
   }
   
-  /* Icon */
+
   .condition-icon-container {
     display: flex;
     justify-content: center;
@@ -147,11 +176,11 @@ background: #FFF;
   }
   
   .condition-icon {
-    width: 60px; /* Adjust based on your actual icon sizes */
-    height: auto;
+   
+   
   }
   
-  /* Value */
+
   .condition-value {
     color: #fff;
     font-family: Inter, sans-serif;
@@ -160,14 +189,19 @@ background: #FFF;
     line-height: normal;
   }
   
-  /* Subtitle */
+  
   .condition-subtitle {
-    color: #808080;
-    text-align: center;
-    font-family: Inter;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    line-height: normal;
+    display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #808080;
+  text-align: center;
+  font-family: Inter, sans-serif;
+  font-size: 0.9375rem; /* ~15px */
+  font-weight: 700;
+  line-height: normal;
   }
   /* ========== TONIGHT'S CONDITIONS ========== */
   .tonights-conditions {
@@ -186,9 +220,8 @@ background: #FFF;
   /* ========== HOURLY & WEEKLY FORECAST TABS ========== */
   .forecast-tabs {
     display: flex;
-    gap: 0.625rem;       /* Figma says ~10px */
+    gap: 0.625rem;       
     margin-bottom: 1.5rem;
-    /* Figma style: display: flex; padding: 1.1875rem 1rem; etc. */
     justify-content: center;
     align-items: center;
     border-radius: 0.5rem;
@@ -199,13 +232,17 @@ background: #FFF;
   .forecast-tabs button {
     background: transparent;
     color: #fff;
-    border: none; /* or 1px solid #fff if you prefer */
+    border: none; 
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
     font-family: Inter, sans-serif;
     font-size: 1rem;
     font-weight: 600;
+  }
+  .forecast-tabs .active {
+    background: #1f78ec;
+    color: white;
   }
   
   /* ========== FORECAST CARDS WRAPPER ========== */
@@ -217,34 +254,25 @@ background: #FFF;
     width: 100%;
   }
   
-  /* ========== FORECAST CARD (HOURLY) ========== */
+  /* ========== FORECAST CARD (HOURLY/WEEKLY) ========== */
   .forecast-card {
     background: #1B1F29;
-    width: 15.625rem;   /* 250px */
-    height: 21.875rem;  /* 350px */
+    max-width: 15.625rem;   
+    min-height: 22.875rem;  
     padding: 1rem;
     border-radius: 8px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  
     display: flex;
     flex-direction: column;
-    align-items: center; /* so text is centered horizontally */
+    align-items: center; 
     justify-content: space-between;
-    gap: 0.5rem;         /* spacing between elements */
+    gap: 0.5rem;         
     text-align: center;
   }
   
-  /* 
-    ~~~~~~~~~~~~~~~~~~~~~
-    The next classes match your Figma specs
-    for time, date, temp, wind speed, visibility, etc.
-    Make sure you add these classNames in your JSX!
-    ~~~~~~~~~~~~~~~~~~~~~
-  */
-  
-  /* Forecast Card - Time */
+
   .forecast-time {
-    /* "time display: flex; padding: 0rem 5rem; ... " */
+    
     display: flex;
     padding: 0 5rem;
     justify-content: center;
@@ -260,11 +288,11 @@ background: #FFF;
     line-height: normal;
   }
   
-  /* Forecast Card - Date */
+  
   .forecast-date {
-    /* "date: color: #C0C0C0; text-align: center; font-size: 1.5rem; ... " */
+    
     display: flex;
-    padding: 0 3.4375rem; /* ~55px on each side */
+    padding: 0 3.4375rem; 
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
@@ -278,12 +306,12 @@ background: #FFF;
     line-height: normal;
   }
   
-  /* Forecast Card - Temperature */
+  
   .forecast-temp {
-    /* "temp: height: 4.6875rem; padding: 0rem 2.75rem; ... " */
+    
     display: flex;
-    height: 4.6875rem;    /* ~75px */
-    padding: 0 2.75rem;   /* ~44px each side */
+    height: 4.6875rem;    
+    padding: 0 2.75rem;   
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
@@ -292,14 +320,14 @@ background: #FFF;
   
     color: #FFF;
     font-family: Inter, sans-serif;
-    font-size: 4.375rem;  /* ~70px */
+    font-size: 4.375rem;  
     font-weight: 700;
     line-height: normal;
   }
   
-  /* Forecast Card - Wind Speed label (e.g. "Wind Speed") */
+ 
   .wind-speed-label {
-    /* "wind speed display: flex; height: 1.875rem; padding: 0.3125rem 3.3125rem; ... " */
+    
     display: flex;
     height: 1.875rem;
     padding: 0.3125rem 3.3125rem;
@@ -315,27 +343,26 @@ background: #FFF;
     line-height: normal;
   }
   
-  /* Forecast Card - Wind Speed value (e.g. "10 km/h") */
+  
   .wind-speed-value {
-    /* "Value of windspeed: display: flex; height: 4.375rem; ... " */
+    
     display: flex;
-    height: 4.375rem;     /* ~70px */
-    padding: 0 4.8125rem; /* ~77px each side */
+    height: 4.375rem;     
+    padding: 0 4.8125rem; 
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
     align-self: stretch;
   
-    color: #32CD32; /* e.g. "limegreen" */
     font-family: Inter, sans-serif;
-    font-size: 3.125rem;  /* ~50px */
+    font-size: 3.125rem;  
     font-weight: 700;
     line-height: normal;
   }
   
-  /* Forecast Card - Visibility label (e.g. "Visibility") */
+  
   .visibility-label {
-    /* "visibility display: flex; height: 1.875rem; padding: 0.3125rem 4.5625rem; ... " */
+   
     display: flex;
     height: 1.875rem;
     padding: 0.3125rem 4.5625rem;
@@ -351,16 +378,16 @@ background: #FFF;
     line-height: normal;
   }
   .unit {
-    font-size: 0.6em; /* Smaller than the main number */
-    vertical-align: super; /* Moves it up slightly */
-    opacity: 0.8; /* Optional: makes it a bit lighter */
+    font-size: 0.6em; 
+    vertical-align: super; 
+    opacity: 0.8; 
   }
-  /* Forecast Card - Visibility value (e.g. "Good") */
+ 
   .visibility-value {
-    /* "visibility value: display: flex; height: 4.375rem; ... " */
+   
     display: flex;
     height: 4.375rem;
-    padding: 0 3.6875rem; /* ~59px each side */
+    padding: 0 3.6875rem; 
     justify-content: center;
     align-items: center;
     gap: 0.625rem;
@@ -368,23 +395,11 @@ background: #FFF;
   
     color: #32CD32;
     font-family: Inter, sans-serif;
-    font-size: 3.125rem;  /* ~50px */
+    font-size: 3.125rem;  
     font-weight: 700;
     line-height: normal;
   }
   
-  /* Example if you have "Detailed card bottom text" with color #808080 */
-  .detailed-bottom-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    flex: 1 0 0;
-    align-self: stretch;
-    color: #808080;
-    text-align: center;
-    font-family: Inter, sans-serif;
-    font-size: 0.9375rem; /* ~15px */
-    font-weight: 700;
-    line-height: normal;
-  }
+
+  
   

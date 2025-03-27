@@ -1,9 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './Navbar';
 import ConditionCard from './ConditionCard';
 import ForecastCard from './ForecastCard';
-import Haze from '../Assets/Haze.png';
+import SearchImg from '../Assets/Search.png';
+
 const ForecastPage = () => {
+  const [forecastType, setForecastType] = useState("hourly");
+  
+  const hourlyForecastData = [
+    { time: '10:00 AM', date: 'March 25', temperature: '15°C', windSpeed: '18 km/h', visibility: 'Good' },
+    { time: '11:00 AM', date: 'March 25', temperature: '16°C', windSpeed: '22 km/h', visibility: 'Okay' },
+    { time: '12:00 PM', date: 'March 25', temperature: '17°C', windSpeed: '25 km/h', visibility: 'Good' },
+    { time: '01:00 PM', date: 'March 25', temperature: '18°C', windSpeed: '20 km/h', visibility: 'Okay' },
+  ];
+  
+  const weeklyForecastData = [
+    { time: 'Monday', date: 'March 25', temperature: '14°C', windSpeed: '12 km/h', visibility: 'Good' },
+    { time: 'Tuesday', date: 'March 26', temperature: '17°C', windSpeed: '28 km/h', visibility: 'Poor' },
+    { time: 'Wednesday', date: 'March 27', temperature: '19°C', windSpeed: '15 km/h', visibility: 'Good' },
+    { time: 'Thursday', date: 'March 28', temperature: '20°C', windSpeed: '10 km/h', visibility: 'Okay' },
+  ];
+
+  const forecastData = forecastType === 'hourly' ? hourlyForecastData : weeklyForecastData;
+  
   return (
     <div className="forecast-page">
       {/* -- Top Navigation -- */}
@@ -16,6 +35,7 @@ const ForecastPage = () => {
           placeholder="Greater London, London" 
           className="location-input"
         />
+        <img className='search-img' src={SearchImg} alt="Search" />
       </div>
 
       {/* -- Stargazing Conditions -- */}
@@ -26,22 +46,22 @@ const ForecastPage = () => {
             title="Cloud Cover"
             value="5%"
             subtitle="Clear Sky"
-            iconSrc = 'Haze'
+            imgNum={0}
           />
           <ConditionCard
-            iconSrc="../Assets/Icon.png"
+            imgNum={1}
             title="Moon Phase"
             value="New Moon"
             subtitle="Minimal Moonlight (Optimal)"
           />
           <ConditionCard
-            iconSrc= "../Assets/Haze.png"
+            imgNum={2}
             title="Transparency"
             value="High"
             subtitle="Good for Deep-sky Viewing"
           />
           <ConditionCard
-            imgSrc="../Assets/Icon.png"
+            imgNum={3}
             title="Seeing"
             value="4/5"
             subtitle="Stable Atmosphere (Optimal)"
@@ -53,43 +73,16 @@ const ForecastPage = () => {
       <section className="tonights-conditions">
         <h2>Tonight’s Conditions</h2>
         <div className="forecast-tabs">
-          <button>Hourly Forecast</button>
-          <button>Weekly Forecast</button>
+          <button onClick={() => setForecastType("hourly")}
+            className={forecastType === "hourly" ? "active" : ""}>Hourly Forecast</button>
+          <button onClick={() => setForecastType("weekly")}
+            className={forecastType === "weekly" ? "active" : ""}>Weekly Forecast</button>
         </div>
 
         <div className="forecast-cards">
-          <ForecastCard
-            weatherIcon="/images/weather-icon.png"
-            time="8PM"
-            date="17/02/2025"
-            temperature="12°C"
-            windSpeed="10 km/h"
-            visibility="Good"
-          />
-          <ForecastCard
-            weatherIcon="/images/weather-icon.png"
-            time="9PM"
-            date="17/02/2025"
-            temperature="11°C"
-            windSpeed="15 km/h"
-            visibility="Okay"
-          />
-          <ForecastCard
-            weatherIcon="/images/weather-icon.png"
-            time="10PM"
-            date="17/02/2025"
-            temperature="11°C"
-            windSpeed="16 km/h"
-            visibility="Okay"
-          />
-          <ForecastCard
-            weatherIcon="/images/weather-icon.png"
-            time="11PM"
-            date="17/02/2025"
-            temperature="10°C"
-            windSpeed="30 km/h"
-            visibility="Poor"
-          />
+          {forecastData.map((forecast, index) => (
+            <ForecastCard key={index} {...forecast} />
+          ))}
         </div>
       </section>
     </div>

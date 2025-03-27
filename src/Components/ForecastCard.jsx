@@ -1,9 +1,21 @@
 import React from 'react';
 import './ForecastPage.css';
+
+const getWindSpeedColor = (speed) => {
+    if (speed > 25) return "#FF4F4F"; // Red
+    if (speed > 14) return "#FFD700"; // Yellow
+    return "#32CD32";
+}
+
+const getVisibilityColor = (visibility) => {
+    if (visibility === 'Poor') return "#FF4F4F"; // Red
+    if (visibility === 'Okay') return "#FFD700"; // Yellow
+    return "#32CD32";
+}
 const ForecastCard = ({ time, date, temperature, windSpeed, visibility }) => {
-    const match = windSpeed.match(/^(\d+)\s*(\D+)$/); // Extracts number + unit
-  const windValue = match ? match[1] : windSpeed; // Number part
-  const windUnit = match ? match[2] : ""; // Unit part
+    const match = windSpeed.match(/^(\d+)\s*(\D+)$/); 
+  const windValue = match ? match[1] : windSpeed; 
+  const windUnit = match ? match[2] : "";
 
   return (
     <div className="forecast-card">
@@ -12,12 +24,12 @@ const ForecastCard = ({ time, date, temperature, windSpeed, visibility }) => {
       <p className="forecast-temp">{temperature}</p>
       <p className="forecast-wind">
       <div className="wind-speed-label">Wind Speed</div>
-        <span className="wind-speed-value">
+        <span className="wind-speed-value" style = {{color : getWindSpeedColor(windValue)}}>
           {windValue}<span className="unit">{windUnit}</span>
         </span>
       </p>
       <div className="visibility-label">Visibility</div>
-      <div className="visibility-value">{visibility}</div>
+      <div className="visibility-value" style={{color : getVisibilityColor(visibility)}}>{visibility}</div>
     </div>
   );
 };
