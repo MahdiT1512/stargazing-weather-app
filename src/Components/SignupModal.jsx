@@ -1,25 +1,27 @@
-// src/Components/SignupModal.jsx
 import React, { useState } from 'react';
 import './LoginModal.css'; // Reusing the same CSS
+import { doCreateUserWithEmailAndPassword } from '../firebase/auth';
 
 const SignupModal = ({ onClose, switchToLogin }) => {
-  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
   const [error, setError] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validate passwords match
+
     if (password !== confirmPassword) {
-      setError("Passwords don't match!");
-      return;
+        setError("Passwords don't match!");
+        return;
+      }
+
+    if(!isRegistering) {
+        setIsRegistering(true)
+        await doCreateUserWithEmailAndPassword(email, password)
     }
 
-    // TODO: Add signup API call
-    console.log('Signup:', { username, email, password });
     onClose(); // Close modal on success
   };
 
@@ -30,13 +32,6 @@ const SignupModal = ({ onClose, switchToLogin }) => {
         <h2>Sign Up</h2>
         {error && <p className="error-message">{error}</p>}
         <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
           <input
             type="email"
             placeholder="Email"
