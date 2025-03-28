@@ -1,4 +1,5 @@
 html, body {
     width: 100%;
     overflow-x: hidden;
+    background: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
   }

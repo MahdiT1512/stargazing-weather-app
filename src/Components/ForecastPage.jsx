@@ -230,7 +230,6 @@ const ForecastPage = () => {
 
   return (
     <div className="forecast-page">
-      <Navbar />
 
       <div className="search-bar">
         <input
