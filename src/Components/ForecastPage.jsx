@@ -14,29 +14,29 @@ const ForecastPage = () => {
     "Cloud Cover": {
       values: [
         { range: [0, 10], subtitle: "Clear Sky", imgNum: 0 },
-        { range: [11, 30], subtitle: "Partly Cloudy", imgNum: 1 },
-        { range: [31, 60], subtitle: "Mostly Cloudy", imgNum: 2 },
-        { range: [61, 100], subtitle: "Overcast", imgNum: 3 },
+        { range: [11, 30], subtitle: "Partly Cloudy", imgNum: 0 },
+        { range: [31, 60], subtitle: "Mostly Cloudy", imgNum: 0 },
+        { range: [61, 100], subtitle: "Overcast", imgNum: 0 },
       ],
     },
     "Moon Phase": {
       values: [
-        { value: "New Moon", subtitle: "Minimal Moonlight (Optimal)", imgNum: 0 },
+        { value: "New Moon", subtitle: "Minimal Moonlight (Optimal)", imgNum: 1 },
         { value: "Full Moon", subtitle: "Bright Moonlight (Suboptimal)", imgNum: 1 },
       ],
     },
     "Transparency": {
       values: [
-        { value: "High", subtitle: "Good for Deep-sky Viewing", imgNum: 0 },
-        { value: "Medium", subtitle: "Average for Deep-sky Viewing", imgNum: 1 },
+        { value: "High", subtitle: "Good for Deep-sky Viewing", imgNum: 2 },
+        { value: "Medium", subtitle: "Average for Deep-sky Viewing", imgNum: 2 },
         { value: "Low", subtitle: "Poor for Deep-sky Viewing", imgNum: 2 },
       ],
     },
     "Seeing": {
       values: [
-        { value: "5/5", subtitle: "Excellent Atmosphere Stability", imgNum: 0 },
-        { value: "4/5", subtitle: "Stable Atmosphere (Optimal)", imgNum: 1 },
-        { value: "3/5", subtitle: "Moderate Atmosphere Stability", imgNum: 2 },
+        { value: "5/5", subtitle: "Excellent Atmosphere Stability", imgNum: 3 },
+        { value: "4/5", subtitle: "Stable Atmosphere (Optimal)", imgNum: 3 },
+        { value: "3/5", subtitle: "Moderate Atmosphere Stability", imgNum: 3 },
         { value: "2/5", subtitle: "Unstable Atmosphere", imgNum: 3 },
       ],
     },
