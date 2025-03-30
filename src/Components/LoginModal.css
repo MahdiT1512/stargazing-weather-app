@@ -1,0 +1,77 @@
+.login-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .login-modal {
+    background: #1b1f29;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+  }
+  
+  .login-modal h2 {
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  
+  .login-modal input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    border: none;
+    background: #121826;
+    color: #fff;
+  }
+  
+  .login-modal button[type="submit"] {
+    width: 100%;
+    padding: 0.8rem;
+    background: #1f78ec;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .login-modal p {
+    color: #C0C0C0;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .login-modal p span {
+    color: #1f78ec;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+.error-message {
+    color: #ff4f4f;
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+  }
