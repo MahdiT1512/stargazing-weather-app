@@ -4,9 +4,11 @@ import ForecastPage from './ForecastPage';
 
 function HomePage() {
   const [isForecastPage, setIsForecastPage] = React.useState(false);
+  const [defaultCity, setDefaultCity] = React.useState(''); 
 
   const handleGetStarted = () => {
     setIsForecastPage(true);
+    setDefaultCity('London'); 
   };
 
   return (
@@ -26,7 +28,7 @@ function HomePage() {
           </div>
         </div>
       ) : (
-        <ForecastPage /> 
+        <ForecastPage initialCity ={defaultCity}/> 
       )}
     </div>
   );
