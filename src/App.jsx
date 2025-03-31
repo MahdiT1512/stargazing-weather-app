@@ -3,6 +3,7 @@ import ForecastPage from "./Components/ForecastPage";
 import HomePage from "./Components/HomePage";
 import Navbar from "./Components/Navbar";
 import './Components/Navbar.css';
+import EventsPage from "./Components/EventsPage";
 
 const App = () => {
   const [currentPage, setCurrentPage] = React.useState("home");
@@ -13,6 +14,8 @@ const App = () => {
         return <HomePage />;
       case "forecast":
         return <ForecastPage />;
+      case "events":
+        return <EventsPage/>;
       default:
         return <HomePage />;
     }

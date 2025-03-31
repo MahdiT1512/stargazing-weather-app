@@ -6,27 +6,9 @@ import DetailedReport from './DetailedReport';
 import SearchImg from '../Assets/Search.png';
 import './ForecastPage.css';
 
-const fetchWeather = async (city) => {
-  const API_URL = "https://api.openweathermap.org/data/2.5/weather?appid=bd122209090a4fd7ec889794a711eac3&units=metric";
-  try {
-    const response = await fetch(`${API_URL}&q=${city}`);    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching weather:", error);
-    return null;
-  }
-};
-
 const ForecastPage = () => {
   const [forecastType, setForecastType] = useState("hourly");
   const [selectedForecast, setSelectedForecast] = useState(null);
-  const [city, setCity] = useState("");
-  const [weather, setWeather] = useState(null);
-  const handleSearch = async () => {
-    if (!city) return;
-    const data = await fetchWeather(city);
-    setWeather(data);
-  };
 
   const conditionMappings = {
     "Cloud Cover": {
@@ -253,21 +235,10 @@ const ForecastPage = () => {
         <input
           type="text"
           placeholder="Greater London, London"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
           className="location-input"
         />
-        <img className="search-img" src={SearchImg} alt="Search" onClick={handleSearch} />
+        <img className="search-img" src={SearchImg} alt="Search" />
       </div>
-      {weather && weather.main ? (
-        <div>
-          <h2>{weather.name}</h2>
-          <p>Temperature: {weather.main.temp}°C</p>
-          <p>Condition: {weather.weather[0].description}</p>
-        </div>
-      ) : weather ? (
-        <p>City not found. Try another.</p>
-      ) : null}
 
       <section className="stargazing-conditions">
         <h2>Stargazing Conditions</h2>
