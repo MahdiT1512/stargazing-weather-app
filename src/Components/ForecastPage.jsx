@@ -5,20 +5,49 @@ import ForecastCard from './ForecastCard';
 import DetailedReport from './DetailedReport';
 import SearchImg from '../Assets/Search.png';
 import './ForecastPage.css';
+import { useEffect } from 'react';
 
-const ForecastPage = () => {
+const fetchWeather = async (city) => {
+  const API_URL = "https://api.openweathermap.org/data/2.5/weather?appid=bd122209090a4fd7ec889794a711eac3&units=metric";
+  try {
+    const response = await fetch(`${API_URL}&q=${city}`);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching weather:", error);
+    return null;
+  }
+}
+const ForecastPage = ({initialCity}) => {
   const [forecastType, setForecastType] = useState("hourly");
   const [selectedForecast, setSelectedForecast] = useState(null);
+  const [city, setCity] = useState(initialCity || "");
+  const [weather, setWeather] = useState(null);
 
+  useEffect(() => {
+    if (initialCity) {
+      handleSearch(initialCity); 
+    }
+  }, [initialCity]);
+
+  const handleSearch = async () => {
+    if (!city) return;
+    const data = await fetchWeather(city);
+    if (data) {
+      setWeather(data);
+    }
+  };
   const conditionMappings = {
+    
     "Cloud Cover": {
       values: [
-        { range: [0, 10], subtitle: "Clear Sky", imgNum: 0 },
-        { range: [11, 30], subtitle: "Partly Cloudy", imgNum: 0 },
-        { range: [31, 60], subtitle: "Mostly Cloudy", imgNum: 0 },
-        { range: [61, 100], subtitle: "Overcast", imgNum: 0 },
+        { value: weather?.clouds?.all || 0 , subtitle:  weather?.clouds?.all > 75 ? "Overcast" :
+          weather?.clouds?.all > 50 ? "Partly Cloudy" :
+          weather?.clouds?.all > 25 ? "Mostly Clear" :
+          "Clear Skies", imgNum: 0 },
       ],
     },
+
     "Moon Phase": {
       values: [
         { value: "New Moon", subtitle: "Minimal Moonlight (Optimal)", imgNum: 1 },
@@ -62,7 +91,10 @@ const ForecastPage = () => {
   };
 
   const currentDayConditions = [
-    { title: "Cloud Cover", value: 30 },
+    { title: "Cloud Cover", value: weather?.clouds?.all || 0, subtitle: weather?.clouds?.all > 75 ? "Overcast" :
+      weather?.clouds?.all > 50 ? "Partly Cloudy" :
+      weather?.clouds?.all > 25 ? "Mostly Clear" :
+      "Clear Skies"},
     { title: "Moon Phase", value: "Full Moon" },
     { title: "Transparency", value: "Medium" },
     { title: "Seeing", value: "3/5" },
@@ -236,8 +268,10 @@ const ForecastPage = () => {
           type="text"
           placeholder="Greater London, London"
           className="location-input"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
         />
-        <img className="search-img" src={SearchImg} alt="Search" />
+        <img className="search-img" src={SearchImg} alt="Search"  onClick={handleSearch}/>
       </div>
 
       <section className="stargazing-conditions">

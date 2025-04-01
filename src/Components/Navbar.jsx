@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from '../Assets/NavLogo.svg';
 import './Navbar.css';
+import LoginModal from './LoginModal';
+import SignupModal from './SignupModal';
+import { useAuth } from '../contexts/authContext';
+import { doSignOut } from '../firebase/auth';
 const Navbar = ({currentPage, setCurrentPage }) => {
-    const getActivePage = (page) => {
+  const [activeModal, setActiveModal] = useState(null); // 'login' or 'signup'
+  const {userLoggedIn} = useAuth();
+  const getActivePage = (page) => {
         return currentPage === page ? 'active' : '';
         }
     return (
@@ -17,7 +23,36 @@ const Navbar = ({currentPage, setCurrentPage }) => {
         <li><a className = {getActivePage('events')}href="#" onClick={() => setCurrentPage('events')}>Events</a></li>
         <li><a className = {getActivePage('community')} href="#" onClick={() => setCurrentPage('community')}>Community</a></li>
       </ul>
-      <button className="login-btn">Log In</button>
+      {
+        userLoggedIn 
+          ?
+          <button
+            className="login-btn"
+            onClick={() => {doSignOut()}} 
+          >
+            Log Out
+          </button>
+          :
+          <button
+            className="login-btn"
+            onClick={() => setActiveModal('login')}
+          >
+            Log In
+          </button>
+      } 
+
+      {activeModal === 'login' && (
+        <LoginModal 
+          onClose={() => setActiveModal(null)} 
+          switchToSignup={() => setActiveModal('signup')} 
+        />
+      )}
+      {activeModal === 'signup' && (
+        <SignupModal 
+          onClose={() => setActiveModal(null)} 
+          switchToLogin={() => setActiveModal('login')} 
+        />
+      )}
     </nav>
   );
 };
