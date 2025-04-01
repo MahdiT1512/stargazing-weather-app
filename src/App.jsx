@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import ForecastPage from "./Components/ForecastPage";
-import CommunityPage from "./Components/CommunityPage";
+import HomePage from "./Components/HomePage";
+import Navbar from "./Components/Navbar";
+import './Components/Navbar.css';
+import EventsPage from "./Components/EventsPage";import CommunityPage from "./Components/CommunityPage";
 import NewBlog from "./Components/NewBlog";
 
 // Function to fetch weather data
@@ -29,6 +32,23 @@ const HomePage = () => {
     setWeather(data);
   };
 
+  const [currentPage, setCurrentPage] = React.useState("home");
+  
+  const renderPage = () => {
+    switch (currentPage) {
+      case "home":
+        return <HomePage />;
+      case "forecast":
+        return <ForecastPage />;
+      case "events":
+        return <EventsPage/>;
+      default:
+        return <HomePage />;
+    }
+  }
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
   return (
     <div className="app">
       <h1>Weather App 🌤</h1>
@@ -52,7 +72,8 @@ const HomePage = () => {
       ) : null}
 
       {/* Render ForecastPage component */}
-      <ForecastPage />
+    <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+    {renderPage()}
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './Navbar';
 import ConditionCard from './ConditionCard';
 import ForecastCard from './ForecastCard';
@@ -6,50 +6,150 @@ import DetailedReport from './DetailedReport';
 import SearchImg from '../Assets/Search.png';
 import './ForecastPage.css';
 
-const ForecastPage = () => {
+const API_KEY = "bd122209090a4fd7ec889794a711eac3";
+const API_URL = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}`;
+const WEATHERAPI_KEY = "a45fabf4f5b3470b8ef110626250104";
+
+const fetchWeather = async (city) => {
+  try {
+    const response = await fetch(`${API_URL}&q=${city}`);
+    const data = await response.json();
+    return {
+      ...data,
+      visibility: data.visibility, // in meters
+      temperature: data.main.temp,
+      humidity: data.main.humidity,
+      windSpeed: data.wind.speed,
+      windGusts: data.wind.gust,
+      clouds: data.clouds,
+    };
+  } catch (error) {
+    console.error("Error fetching weather:", error);
+    return null;
+  }
+}
+
+const ForecastPage = ({initialCity}) => {
   const [forecastType, setForecastType] = useState("hourly");
   const [selectedForecast, setSelectedForecast] = useState(null);
+  const [city, setCity] = useState(initialCity || "");
+  const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
+
+  const calculateSeeing = (cloud, wind, humidity) => {
+    if (cloud > 75 || wind > 30 || humidity > 90) return "1/5";
+    if (cloud > 50 || wind > 25 || humidity > 80) return "2/5";
+    if (cloud > 40 || wind > 20 || humidity > 70) return "3/5";
+    if (cloud > 30 || wind > 15 || humidity > 60) return "4/5";
+    return "5/5";
+  };
+
+  const getVisibilityDescription = (visibility) => {
+    if (visibility >= 10000) return "Very clear";
+    if (visibility >= 6000) return "Good";
+    if (visibility >= 4000) return "Moderate";
+    if (visibility >= 1000) return "Poor";
+    return "Very poor";
+  };
+
+  const fetchForecast = async (lat, lon) => {
+    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
+    const data = await response.json();
+    setForecast(data.list || []);
+  };
+
+  const fetchAstronomyData = async (city) => {
+    const today = new Date().toISOString().split('T')[0];
+    const response = await fetch(
+      `https://api.weatherapi.com/v1/astronomy.json?key=${WEATHERAPI_KEY}&q=${city}&dt=${today}`
+    );
+    const data = await response.json();
+    return {
+      moonPhase: data?.astronomy?.astro?.moon_phase || "Unknown",
+      moonrise: data?.astronomy?.astro?.moonrise || "N/A",
+      moonset: data?.astronomy?.astro?.moonset || "N/A",
+    };
+  };
+
+  useEffect(() => {
+    if (initialCity) {
+      handleSearch(initialCity); 
+    }
+  }, [initialCity]);
+
+  const handleSearch = async () => {
+    if (!city) return;
+    const data = await fetchWeather(city);
+    const astronomy = await fetchAstronomyData(city);
+    if (data) {
+      setWeather({
+        ...data,
+        ...astronomy,
+      });
+
+      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
+      const locationData = await response.json();
+      if (!locationData || !locationData[0]) return;
+      const { lat, lon } = locationData[0];
+
+      await fetchForecast(lat, lon);
+    }
+  };
+
+  const currentDayConditions = [
+    { title: "Cloud Cover", value: weather?.clouds?.all || 0 },
+    { title: "Moon Phase", value: weather?.moonPhase || "Unknown" },
+    { title: "Visibility", value: getVisibilityDescription(weather?.visibility || 0) },
+    { title: "Seeing", value: calculateSeeing(weather?.clouds?.all || 0, weather?.windSpeed || 0, weather?.humidity || 0) },
+  ];
 
   const conditionMappings = {
     "Cloud Cover": {
       values: [
-        { range: [0, 10], subtitle: "Clear Sky", imgNum: 0 },
-        { range: [11, 30], subtitle: "Partly Cloudy", imgNum: 1 },
-        { range: [31, 60], subtitle: "Mostly Cloudy", imgNum: 2 },
-        { range: [61, 100], subtitle: "Overcast", imgNum: 3 },
+        { value: weather?.clouds?.all || 0 , subtitle:  weather?.clouds?.all > 75 ? "Overcast" :
+          weather?.clouds?.all > 50 ? "Partly Cloudy" :
+          weather?.clouds?.all > 25 ? "Mostly Clear" :
+          "Clear Skies" },
       ],
     },
     "Moon Phase": {
       values: [
-        { value: "New Moon", subtitle: "Minimal Moonlight (Optimal)", imgNum: 0 },
-        { value: "Full Moon", subtitle: "Bright Moonlight (Suboptimal)", imgNum: 1 },
+        { value: "New Moon", subtitle: "Minimal Moonlight (Optimal)" },
+        { value: "Full Moon", subtitle: "Bright Moonlight (Suboptimal)" },
+        { value: "First Quarter", subtitle: "Growing Visibility" },
+        { value: "Last Quarter", subtitle: "Shrinking Visibility" },
+        { value: "Waning Crescent", subtitle: "Dimming Moon" },
+        { value: "Waning Gibbous", subtitle: "Still Quite Bright" },
+        { value: "Waxing Crescent", subtitle: "Moonlight Emerging" },
+        { value: "Waxing Gibbous", subtitle: "Brightening Moon" },
       ],
     },
-    "Transparency": {
+    "Visibility": {
       values: [
-        { value: "High", subtitle: "Good for Deep-sky Viewing", imgNum: 0 },
-        { value: "Medium", subtitle: "Average for Deep-sky Viewing", imgNum: 1 },
-        { value: "Low", subtitle: "Poor for Deep-sky Viewing", imgNum: 2 },
+        { value: "Very clear", subtitle: "Excellent visibility for stargazing" },
+        { value: "Good", subtitle: "Decent visibility for stargazing" },
+        { value: "Moderate", subtitle: "Some atmospheric obstruction" },
+        { value: "Poor", subtitle: "Limited stargazing visibility" },
+        { value: "Very poor", subtitle: "Viewing not recommended" },
       ],
     },
     "Seeing": {
       values: [
-        { value: "5/5", subtitle: "Excellent Atmosphere Stability", imgNum: 0 },
-        { value: "4/5", subtitle: "Stable Atmosphere (Optimal)", imgNum: 1 },
-        { value: "3/5", subtitle: "Moderate Atmosphere Stability", imgNum: 2 },
-        { value: "2/5", subtitle: "Unstable Atmosphere", imgNum: 3 },
+        { value: "5/5", subtitle: "Excellent Viewing Conditions"},
+        { value: "4/5", subtitle: "Decent Viewing Conditions"},
+        { value: "3/5", subtitle: "Moderate Viewing Conditions"},
+        { value: "2/5", subtitle: "Inoptimal Viewing Conditions"},
+        { value: "1/5", subtitle: "Poor Viewing Conditions"},
+        { value: "0/5", subtitle: "Viewing not Suggested"},
       ],
     },
   };
 
   const getConditionDetails = (title, value) => {
     const mapping = conditionMappings[title];
-    if (!mapping) return { subtitle: "No data available", imgNum: 0 };
+    if (!mapping) return { subtitle: "No data available" };
 
     const match = mapping.values.find((item) => {
-      if (item.range) {
-        return value >= item.range[0] && value <= item.range[1];
-      }
       return item.value === value;
     });
 
@@ -58,165 +158,59 @@ const ForecastPage = () => {
 
     return match
       ? { ...match, value: formattedValue }
-      : { subtitle: "No data available", imgNum: 0, value: formattedValue };
+      : { subtitle: "No data available", value: formattedValue };
   };
 
-  const currentDayConditions = [
-    { title: "Cloud Cover", value: 30 },
-    { title: "Moon Phase", value: "Full Moon" },
-    { title: "Transparency", value: "Medium" },
-    { title: "Seeing", value: "3/5" },
-  ];
+  const hourlyForecastData = forecast.slice(0, 4).map(item => {
+    const date = new Date(item.dt * 1000);
+    return {
+      time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      date: date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }),
+      temperature: item.main?.temp ? `${Math.round(item.main.temp)}°C` : "N/A",
+      moonPhase: weather?.moonPhase || "N/A",
+      moonrise: weather?.moonrise || "N/A",
+      moonset: weather?.moonset || "N/A",
+      windSpeed: item.wind?.speed ? `${Math.round(item.wind.speed)} km/h` : "N/A",
+      windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
+      cloudCover: item.clouds?.all ? `${item.clouds.all}%` : "N/A",
+      humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
+      seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
+      bortleScale: "N/A",
+      dewPoint: "N/A",
+      astroTwilight: "N/A",
+      visibility: item.visibility
+        ? getVisibilityDescription(item.visibility * 1000)
+        : "N/A"
+    };
+  });
 
-  const hourlyForecastData = [
-    { 
-      time: '10:00 AM', 
-      date: 'March 25', 
-      temperature: '15°C', 
-      moonPhase: 'New Moon',
-      moonset: '8:45 PM',
-      moonrise: '5:30 AM',
-      windSpeed: '18 km/h', 
-      windGusts: '25 km/h',
-      cloudCover: '10%',
-      humidity: '55%',
-      seeing: '4/5',
-      bortleScale: '3',
-      dewPoint: '10°C',
-      astroTwilight: '8:00 PM',
-      transparency: 'High',
-      visibility: 'Good'
-    },
-    { 
-      time: '11:00 AM', 
-      date: 'March 25', 
-      temperature: '16°C', 
-      moonPhase: 'New Moon',
-      moonset: '8:45 PM',
-      moonrise: '5:30 AM',
-      windSpeed: '22 km/h', 
-      windGusts: '28 km/h',
-      cloudCover: '12%',
-      humidity: '50%',
-      seeing: '4/5',
-      bortleScale: '3',
-      dewPoint: '10°C',
-      astroTwilight: '8:05 PM',
-      transparency: 'High',
-      visibility: 'Okay'
-    },
-    { 
-      time: '12:00 PM', 
-      date: 'March 25', 
-      temperature: '17°C', 
-      moonPhase: 'New Moon',
-      moonset: '8:45 PM',
-      moonrise: '5:30 AM',
-      windSpeed: '25 km/h', 
-      windGusts: '32 km/h',
-      cloudCover: '14%',
-      humidity: '48%',
-      seeing: '3/5',
-      bortleScale: '4',
-      dewPoint: '10°C',
-      astroTwilight: '8:10 PM',
-      transparency: 'High',
-      visibility: 'Good'
-    },
-    { 
-      time: '01:00 PM', 
-      date: 'March 25', 
-      temperature: '18°C', 
-      moonPhase: 'New Moon',
-      moonset: '8:45 PM',
-      moonrise: '5:30 AM',
-      windSpeed: '20 km/h', 
-      windGusts: '27 km/h',
-      cloudCover: '18%',
-      humidity: '52%',
-      seeing: '4/5',
-      bortleScale: '3',
-      dewPoint: '10°C',
-      astroTwilight: '8:15 PM',
-      transparency: 'High',
-      visibility: 'Okay'
-    },
-  ];
-
-  const weeklyForecastData = [
-    { 
-      time: 'Monday', 
-      date: 'March 25', 
-      temperature: '14°C', 
-      moonPhase: 'Full Moon',
-      moonset: '6:20 AM',
-      moonrise: '6:50 PM',
-      windSpeed: '12 km/h',
-      windGusts: '20 km/h',
-      cloudCover: '30%',
-      humidity: '60%',
-      seeing: '3/5',
-      bortleScale: '5',
-      dewPoint: '12°C',
-      astroTwilight: '8:30 PM',
-      transparency: 'Medium',
-      visibility: 'Good'
-    },
-    { 
-      time: 'Tuesday', 
-      date: 'March 26', 
-      temperature: '17°C', 
-      moonPhase: 'Full Moon',
-      moonset: '6:45 AM',
-      moonrise: '7:15 PM',
-      windSpeed: '28 km/h',
-      windGusts: '35 km/h',
-      cloudCover: '50%',
-      humidity: '58%',
-      seeing: '2/5',
-      bortleScale: '6',
-      dewPoint: '12°C',
-      astroTwilight: '8:35 PM',
-      transparency: 'Low',
-      visibility: 'Poor'
-    },
-    { 
-      time: 'Wednesday', 
-      date: 'March 27', 
-      temperature: '19°C', 
-      moonPhase: 'Full Moon',
-      moonset: '7:10 AM',
-      moonrise: '7:40 PM',
-      windSpeed: '15 km/h',
-      windGusts: '22 km/h',
-      cloudCover: '20%',
-      humidity: '53%',
-      seeing: '3/5',
-      bortleScale: '4',
-      dewPoint: '12°C',
-      astroTwilight: '8:40 PM',
-      transparency: 'Medium',
-      visibility: 'Good'
-    },
-    { 
-      time: 'Thursday', 
-      date: 'March 28', 
-      temperature: '20°C', 
-      moonPhase: 'Full Moon',
-      moonset: '7:35 AM',
-      moonrise: '8:05 PM',
-      windSpeed: '10 km/h',
-      windGusts: '18 km/h',
-      cloudCover: '25%',
-      humidity: '50%',
-      seeing: '4/5',
-      bortleScale: '4',
-      dewPoint: '12°C',
-      astroTwilight: '8:45 PM',
-      transparency: 'Medium',
-      visibility: 'Okay'
-    },
-  ];
+  const dailyMap = new Map();
+  forecast.forEach(item => {
+    const dateKey = new Date(item.dt * 1000).toLocaleDateString();
+    if (!dailyMap.has(dateKey)) dailyMap.set(dateKey, item);
+  });
+  const weeklyForecastData = Array.from(dailyMap.values()).slice(0, 4).map(item => {
+    const date = new Date(item.dt * 1000);
+    return {
+      time: date.toLocaleDateString(undefined, { weekday: 'long' }),
+      date: date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }),
+      temperature: item.main?.temp ? `${Math.round(item.main.temp)}°C` : "N/A",
+      moonPhase: weather?.moonPhase || "N/A",
+      moonrise: weather?.moonrise || "N/A",
+      moonset: weather?.moonset || "N/A",
+      windSpeed: item.wind?.speed ? `${Math.round(item.wind.speed)} km/h` : "N/A",
+      windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
+      cloudCover: item.clouds?.all ? `${item.clouds.all}%` : "N/A",
+      humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
+      seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
+      bortleScale: "N/A",
+      dewPoint: "N/A",
+      astroTwilight: "N/A",
+      visibility: item.visibility
+        ? getVisibilityDescription(item.visibility * 1000)
+        : "N/A"
+    };
+  });
 
   const forecastData = forecastType === 'hourly' ? hourlyForecastData : weeklyForecastData;
 
@@ -228,24 +222,31 @@ const ForecastPage = () => {
     setSelectedForecast(null);
   };
 
+  const fixedImageMap = {
+    "Cloud Cover": 0,
+    "Moon Phase": 1,
+    "Visibility": 2,
+    "Seeing": 3,
+  };
+
   return (
     <div className="forecast-page">
-      <Navbar />
-
       <div className="search-bar">
         <input
           type="text"
           placeholder="Greater London, London"
           className="location-input"
+          value={city}
+          onChange={(e) => setCity(e.target.value)}
         />
-        <img className="search-img" src={SearchImg} alt="Search" />
+        <img className="search-img" src={SearchImg} alt="Search"  onClick={handleSearch}/>
       </div>
 
       <section className="stargazing-conditions">
         <h2>Stargazing Conditions</h2>
         <div className="conditions-cards">
           {currentDayConditions.map((condition, index) => {
-            const { subtitle, imgNum, value } = getConditionDetails(
+            const { subtitle, value } = getConditionDetails(
               condition.title,
               condition.value
             );
@@ -255,7 +256,7 @@ const ForecastPage = () => {
                 title={condition.title}
                 value={value}
                 subtitle={subtitle}
-                imgNum={imgNum}
+                imgNum={fixedImageMap[condition.title]}
               />
             );
           })}
@@ -265,20 +266,9 @@ const ForecastPage = () => {
       <section className="tonights-conditions">
         <h2>Tonight’s Conditions</h2>
         <div className="forecast-tabs">
-          <button
-            onClick={() => setForecastType("hourly")}
-            className={forecastType === "hourly" ? "active" : ""}
-          >
-            Hourly Forecast
-          </button>
-          <button
-            onClick={() => setForecastType("weekly")}
-            className={forecastType === "weekly" ? "active" : ""}
-          >
-            Weekly Forecast
-          </button>
+          <button onClick={() => setForecastType("hourly")} className={forecastType === "hourly" ? "active" : ""}>Hourly Forecast</button>
+          <button onClick={() => setForecastType("weekly")} className={forecastType === "weekly" ? "active" : ""}>Weekly Forecast</button>
         </div>
-
         <div className="forecast-cards">
           {forecastData.map((forecast, index) => (
             <div key={index} onClick={() => handleForecastSelect(forecast)}>
@@ -291,28 +281,8 @@ const ForecastPage = () => {
       {selectedForecast && (
         <div className="details-overlay">
           <div className="overlay-content">
-            <button className="close-btn" onClick={closeOverlay}>
-              ×
-            </button>
-            <DetailedReport
-              temperature={selectedForecast.temperature}
-              visibility={selectedForecast.visibility}
-              moonPhase={selectedForecast.moonPhase}
-              moonrise={selectedForecast.moonrise}
-              moonset={selectedForecast.moonset}
-              dewPoint={selectedForecast.dewPoint}
-              astroTwilight={selectedForecast.astroTwilight}
-              transparency={selectedForecast.transparency}
-              windSpeed={selectedForecast.windSpeed}
-              windGusts={selectedForecast.windGusts}
-              cloudCover={selectedForecast.cloudCover}
-              humidity={selectedForecast.humidity}
-              seeing={selectedForecast.seeing}
-              bortleScale={selectedForecast.bortleScale}
-              date={selectedForecast.date}
-              time={selectedForecast.time}
-              forecastType={forecastType}
-            />
+            <button className="close-btn" onClick={closeOverlay}>×</button>
+            <DetailedReport {...selectedForecast} forecastType="overlay" />
           </div>
         </div>
       )}
