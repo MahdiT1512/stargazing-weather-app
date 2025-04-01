@@ -1,5 +1,9 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import Navbar from "./Components/Navbar";
 import ForecastPage from "./Components/ForecastPage";
+import CommunityPage from "./Components/CommunityPage";
+import NewBlog from "./Components/NewBlog";
 
 // Function to fetch weather data
 const fetchWeather = async (city) => {
@@ -14,7 +18,7 @@ const fetchWeather = async (city) => {
   }
 };
 
-const App = () => {
+const HomePage = () => {
   const [city, setCity] = useState("");
   const [weather, setWeather] = useState(null);
 
@@ -50,6 +54,20 @@ const App = () => {
       {/* Render ForecastPage component */}
       <ForecastPage />
     </div>
+  );
+};
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/ForecastPage" element={<ForecastPage />} />
+        <Route path="/events" element={<h1>Events Page</h1>} />
+        <Route path="/CommunityPage" element={<CommunityPage />} />
+        <Route path="/NewBlog" element={<NewBlog />} />
+      </Routes>
+    </Router>
   );
 };
 

@@ -1,0 +1,264 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  
+  /* ========== FORECAST PAGE CONTAINER ========== */
+  .community-page {
+    
+    width: 100%;
+    min-height: 100vh; 
+    background: linear-gradient(180deg, #0A0F1E 0%, #121826 50%, #000 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    font-family: Inter, sans-serif; 
+  }
+  
+  /* ========== NAVBAR ========== */
+  .navbar {
+    display: flex;
+    width: 90rem;
+    height: 4.375rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
+  }
+
+  .logo{
+    display: flex;
+    width: 25rem;
+    padding: 0.875rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  .logo-name {
+   display: flex;
+   text-align: center;
+   font-family: 'Montserrat', sans-serif;
+   font-size: 1.65rem;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+  }
+  .logo-image{
+    max-width: 3.5rem;
+    height: 3.8125rem;
+    flex-shrink: 0;
+    
+  }
+  
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  
+  .nav-links a {
+    color: #C0C0C0;                
+    text-align: center;           
+    font-family: Montserrat, sans-serif; 
+    font-size: 1.25rem;            
+    font-style: normal;
+    font-weight: 400;             
+    line-height: normal;
+    text-decoration: none;
+    padding: 3.5rem;
+  }
+  
+  .login-btn {
+    background: #1f78ec;
+    color: #fff;
+    border: none;
+    max-width: 16rem;
+    padding: 0.875rem 1.3125rem;
+    border-radius: 4rem;
+    cursor: pointer;
+  }
+
+  .post-container {
+    display: flex;
+    flex-direction: column; /* Stack image and text vertically */
+    width: 100%;
+    max-width: 600px; /* Adjust if needed */
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    background: #1b1f29;
+  }
+  
+  .post-image {
+    width: 100%; /* Makes the image take full width */
+    max-width: 500px; /* Limits the image size */
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .post-image:hover {
+    filter: brightness(70%); /* Adjust brightness (lower is darker) */
+  }
+  
+  .post-content {
+    display: flex;
+    flex-direction: column;
+    margin-left: 0; /* Remove extra spacing */
+    max-width: 500px; /* Match the image width */
+    width: 100%; /* Ensures it doesn't shrink too much */
+  }
+  
+  .post-header {
+    display: flex;
+    justify-content: space-between; /* Centers horizontally */
+    align-items: center; /* Centers vertically */
+    gap: 10px; /* Optional: Adjust spacing if needed */
+    padding-top: 3%;
+    max-width: 500px; /* Prevents stretching */
+    width: 100%;
+
+  }
+  
+  .post-title {
+    font-size: 24px;
+    margin: 0;
+    color: white;
+    text-align: left;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    flex: 1; /* Allows it to shrink if needed */
+    min-width: 0; /* Ensures it doesn't force the header to expand */
+    max-width: 70%; /* Leaves space for the date */
+}
+  .post-user, .post-date {
+    font-size: 14px;
+    color: rgb(185, 185, 185);
+    padding-top: 3%;
+    width: 100%;
+    text-align: right; /* Aligns the text to the right */;
+
+  }
+
+  .post-info {
+    display: flex;
+    flex-direction: column; /* Aligns username and date vertically */
+    align-items: flex-end;  /* Aligns the items to the right */
+  }
+
+
+  
+  .post-camera {
+    font-size: 16px;
+    margin: 5px 0;
+    color: rgb(185, 185, 185);
+    word-wrap: break-word; /* Ensures wrapping */
+    overflow-wrap: break-word;
+    max-width: 100%; /* Prevents stretching */
+
+  }
+  .post-description {
+    margin-top: 30px;
+    font-size: 20px;
+    color: whitee;
+    flex-wrap: wrap; /* Allows text to wrap */
+    word-wrap: break-word; /* Ensures long words break into a new line */
+    overflow-wrap: break-word; /* Ensures content does not overflow */
+    max-width: 100%; /* Prevents stretching */
+  }
+
+  .create-post-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 600px; /* Adjust if needed */
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 10px;
+    background: #1b1f29;
+  }
+
+
+  .logged-in {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 20px; /* Adjust the value to control the space */
+  }
+
+  /* Style the "Create Post" button like the custom file upload button */
+  .create-post-button {
+    display: inline-block;
+    padding: 10px 15px;
+    font-size: 16px;
+    color: white;
+    background: #1f78ec;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    border: none; /* Remove default button border */
+  }
+
+  /* Add hover effect */
+  .create-post-button:hover {
+    background: #003e81; /* Darker blue on hover */
+  }
+
+  /* Optional: Add focus effect for accessibility */
+  .create-post-button:focus {
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 0 3px rgba(0, 85, 255, 0.5); /* Add a blue glow effect when focused */
+  }
+
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8); /* Dark overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto; /* Enable scrolling if content is too big */
+  }
+  
+  .modal-content {
+    position: relative;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: auto; /* Enable scrolling inside modal */
+  }
+  
+  .modal-content img {
+    width: 100%;
+    height: auto;
+    max-height: 90vh; /* Prevents overflowing the screen */
+    display: block;
+    margin: auto;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 5px 10px;
+    border-radius: 50%;
+    color: black;
+  }
+  
+
+

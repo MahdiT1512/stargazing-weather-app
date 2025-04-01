@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom'; // Import Link from React Router
 import Logo from '../Assets/NavLogo.svg';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
@@ -7,7 +8,7 @@ import { doSignOut } from '../firebase/auth';
 
 const Navbar = () => {
   const [activeModal, setActiveModal] = useState(null); // 'login' or 'signup'
-  const {userLoggedIn} = useAuth();
+  const { userLoggedIn } = useAuth();
 
   return (
     <nav className="navbar">
@@ -16,25 +17,19 @@ const Navbar = () => {
         <div className="logo-name">Stargazing Weather App</div>
       </div>
       <ul className="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="/ForecastPage">Forecast</a></li>
-        <li><a href="/events">Events</a></li>
-        <li><a href="/community">Community</a></li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/ForecastPage">Forecast</Link></li>
+        <li><Link to="/events">Events</Link></li>
+        <li><Link to="/CommunityPage">Community</Link></li>
       </ul>
       {
         userLoggedIn 
           ?
-          <button
-            className="login-btn"
-            onClick={() => {doSignOut()}} 
-          >
+          <button className="login-btn" onClick={doSignOut}>
             Log Out
           </button>
           :
-          <button
-            className="login-btn"
-            onClick={() => setActiveModal('login')}
-          >
+          <button className="login-btn" onClick={() => setActiveModal('login')}>
             Log In
           </button>
       } 

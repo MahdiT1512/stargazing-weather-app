@@ -1,0 +1,240 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  
+  /* ========== FORECAST PAGE CONTAINER ========== */
+  .new-blog-page {
+    
+    width: 100%;
+    min-height: 100vh; 
+    background: linear-gradient(180deg, #0A0F1E 0%, #121826 50%, #000 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    font-family: Inter, sans-serif; 
+  }
+  
+  /* ========== NAVBAR ========== */
+  .navbar {
+    display: flex;
+    width: 90rem;
+    height: 4.375rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    background-color: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
+  }
+
+  .logo{
+    display: flex;
+    width: 25rem;
+    padding: 0.875rem;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  
+  .logo-name {
+   display: flex;
+   text-align: center;
+   font-family: 'Montserrat', sans-serif;
+   font-size: 1.65rem;
+   font-style: normal;
+   font-weight: 700;
+   line-height: normal;
+  }
+  .logo-image{
+    max-width: 3.5rem;
+    height: 3.8125rem;
+    flex-shrink: 0;
+    
+  }
+  
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  
+  .nav-links a {
+    color: #C0C0C0;                
+    text-align: center;           
+    font-family: Montserrat, sans-serif; 
+    font-size: 1.25rem;            
+    font-style: normal;
+    font-weight: 400;             
+    line-height: normal;
+    text-decoration: none;
+    padding: 3.5rem;
+  }
+  
+  .login-btn {
+    background: #1f78ec;
+    color: #fff;
+    border: none;
+    max-width: 16rem;
+    padding: 0.875rem 1.3125rem;
+    border-radius: 4rem;
+    cursor: pointer;
+  }
+
+/* Style for text inputs (Title & Camera) */
+.input-title {
+  font-size: 24px; /* Same as .post-title */
+  font-weight: bold;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px; /* Keep it consistent */
+  background: #f9f9f9;
+  outline: none;
+  margin-top: 2%;
+}
+
+/* Style for text inputs (Title & Camera) */
+.input-camera {
+  font-size: 20px; /* Same as .post-title */
+  color: black;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 80%;
+  max-width: 500px; /* Keep it consistent */
+  background: #f9f9f9;
+  outline: none;
+  margin-top: 2%;
+}
+
+
+/* Style for Textarea (Content) */
+.input-content {
+  font-size: 20px; /* Same as .post-description */
+  color: black;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 500px;
+  height: 150px; /* Adjust height as needed */
+  background: #f9f9f9;
+  resize: none; /* Prevent resizing */
+  outline: none;
+  margin-top: 2%;
+  font-family: inherit; /* Ensures it matches other text inputs */
+}
+
+/* Add focus effect to inputs */
+.input-title:focus, .input-camera:focus, .input-content:focus {
+  border-color: #aaa; /* Light highlight on focus */
+}
+
+.post-container {
+  margin-top: 20px;
+}
+
+.post-header {
+  white-space: nowrap; /* Prevents text from wrapping */
+  overflow: hidden; /* Hides overflowing text */
+  text-overflow: ellipsis; /* Adds "..." if text is too long */
+  flex-wrap: nowrap; /* Forces everything to stay in one line */
+}
+
+.post-user {
+  font-size: 14px;
+  color: rgb(185, 185, 185);
+  align-self: center;
+  padding-top: 0%;
+}
+
+  /* Hide the default file input */
+.input-file {
+  display: none;
+}
+
+/* Container to align button and file name */
+.file-input-container {
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-between; /* Space between button and file name */
+  align-items: center; /* Center vertically */
+}
+
+/* Custom file upload button */
+.custom-file-label {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background: #1f78ec;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+/* Add hover effect */
+.custom-file-label:hover {
+  background: #003e81; /* Blue color */
+}
+
+/* Style for the chosen file name */
+.file-name {
+  font-size: 16px;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px; /* Adjust as needed */
+}
+
+.remove-file-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  font-size: 16px;
+  color: white;
+  background: red;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.remove-file-btn:hover {
+  background: darkred;
+}
+
+.file-buttons {
+  display: flex;
+  gap: 10px; /* Space between buttons */
+}
+
+.submit-button {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background: #1f78ec;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 2%;
+}
+/* Add hover effect */
+.submit-button:hover {
+  background: #003e81; /* Blue color */
+}
+
+.input-title, .input-camera {
+
+  width: 100%; /* Makes both inputs take up the same width */
+  box-sizing: border-box; /* Ensures padding & borders don’t affect width */
+
+}
+
+  
+  
