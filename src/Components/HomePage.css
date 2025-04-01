@@ -104,7 +104,7 @@
  /* ========== NAVBAR ========== */
  .navbar {
     display: flex;
-    max-width: 90rem;
+    max-width: 100%;
     height: 4.375rem;
     justify-content: space-between;
     align-items: center;

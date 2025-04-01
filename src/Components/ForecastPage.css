@@ -21,7 +21,6 @@
   /* ========== NAVBAR ========== */
   .navbar {
     display: flex;
-    width: 90rem;
     height: 4.375rem;
     justify-content: space-between;
     align-items: center;
