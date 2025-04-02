@@ -16,6 +16,7 @@
 /* Heading Style */
 .detailed-report h2 {
   text-align: center;
+  font-size: 1.75rem; /* Larger heading for better readability */
 }
 
 /* Date & Time header section */
@@ -105,5 +106,33 @@
 
   .detail-value {
     font-size: 1.1rem; /* Slightly smaller value size for mobile */
+  }
+}
+
+/* Very Small Screen Adjustments (e.g., for screens < 480px) */
+@media (max-width: 480px) {
+  .detailed-report {
+    padding: 0.8rem; /* Less padding */
+  }
+
+  .date-and-time {
+    padding: 0.6rem;
+  }
+
+  .date-and-time h3 {
+    font-size: 1rem; /* Even smaller font size for very small screens */
+  }
+
+  .detail-item {
+    min-width: 100%; /* Full width for all items */
+    padding: 0.8rem; /* Less padding on very small screens */
+  }
+
+  .detail-label {
+    font-size: 0.75rem; /* Even smaller labels */
+  }
+
+  .detail-value {
+    font-size: 1rem; /* Reduced value size */
   }
 }
