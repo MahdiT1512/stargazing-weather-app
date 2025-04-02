@@ -20,18 +20,18 @@
 /* ========== NAVBAR ========== */
 .navbar {
   display: flex;
-  width: 90rem;
+  width: 100%; /* Changed to 100% to allow for full screen width */
   height: 4.375rem;
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
-  background-color: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
+  background: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%); /* Fixed gradient */
   padding: 0 2rem; /* Added padding for spacing */
 }
 
 .logo {
   display: flex;
-  width: 25rem;
+  width: auto; /* Removed fixed width to make it flexible */
   padding: 0.875rem;
   justify-content: space-between;
   align-items: center;
@@ -67,7 +67,7 @@
   font-size: 1.25rem;
   font-weight: 400;
   text-decoration: none;
-  padding: 3.5rem;
+  padding: 1rem 0; /* Adjusted padding */
   transition: color 0.2s ease;
 }
 
@@ -88,6 +88,7 @@
   padding: 0.875rem 1.3125rem;
   border-radius: 4rem;
   cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .login-btn:hover {
@@ -95,10 +96,8 @@
 }
 
 /* ========== INPUT FIELDS ========== */
-/* Title input */
-.input-title {
-  font-size: 24px;
-  font-weight: bold;
+.input-title, .input-camera, .input-content {
+  font-size: 20px;
   color: black;
   padding: 10px;
   border: 1px solid #ddd;
@@ -110,40 +109,15 @@
   margin-top: 2%;
 }
 
-/* Camera input */
-.input-camera {
-  font-size: 20px;
-  color: black;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 80%;
-  max-width: 500px;
-  background: #f9f9f9;
-  outline: none;
-  margin-top: 2%;
+.input-title:focus, .input-camera:focus, .input-content:focus {
+  border-color: #aaa; /* Light highlight on focus */
 }
 
 /* Content Textarea */
 .input-content {
-  font-size: 20px;
-  color: black;
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  width: 100%;
-  max-width: 500px;
   height: 150px;
-  background: #f9f9f9;
   resize: none;
-  outline: none;
-  margin-top: 2%;
   font-family: inherit;
-}
-
-/* Focused input fields */
-.input-title:focus, .input-camera:focus, .input-content:focus {
-  border-color: #aaa; /* Light highlight on focus */
 }
 
 /* Post Container */
@@ -192,7 +166,6 @@
   text-align: center;
 }
 
-/* Hover effect on custom file upload button */
 .custom-file-label:hover {
   background: #003e81;
 }
@@ -241,7 +214,6 @@
   margin-top: 2%;
 }
 
-/* Hover effect on submit button */
 .submit-button:hover {
   background: #003e81;
 }
@@ -252,11 +224,13 @@
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
+    padding: 1rem;
   }
 
   .logo {
     width: 100%;
     justify-content: flex-start;
+    margin-bottom: 1rem;
   }
 
   .nav-links {
