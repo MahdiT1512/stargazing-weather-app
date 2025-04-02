@@ -80,6 +80,13 @@
   .nav-links {
     flex-direction: column;
     gap: 0.75rem;
+    align-items: center;
+  }
+  .nav-links a {
+    font-size: 1.1rem;
+  }
+  .logo-name {
+    font-size: 1.25rem;
   }
 }
 
@@ -110,20 +117,20 @@
 }
 
 .post-title {
-  font-size: 20px;
+  font-size: 1.25rem; /* Adjusted for better readability */
   color: white;
   word-wrap: break-word;
 }
 
 .post-user, .post-date {
-  font-size: 14px;
+  font-size: 0.875rem; /* Reduced size for better mobile view */
   color: rgb(185, 185, 185);
   text-align: right;
 }
 
 .post-description {
   margin-top: 15px;
-  font-size: 16px;
+  font-size: 1rem; /* Adjusted for readability */
   color: white;
 }
 
@@ -143,7 +150,7 @@
 
 .create-post-button {
   padding: 10px 15px;
-  font-size: 16px;
+  font-size: 1rem; /* Adjusted for better readability */
   color: white;
   background: #1f78ec;
   border-radius: 5px;
@@ -203,9 +210,12 @@
     width: 95%;
   }
   .post-title {
-    font-size: 18px;
+    font-size: 1.125rem; /* Reduced size for small screens */
   }
   .post-description {
-    font-size: 14px;
+    font-size: 0.875rem; /* Smaller font size */
+  }
+  .create-post-button {
+    font-size: 0.875rem; /* Adjusted for smaller screens */
   }
 }
