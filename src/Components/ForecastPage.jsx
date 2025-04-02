@@ -4,60 +4,15 @@ import ConditionCard from './ConditionCard';
 import ForecastCard from './ForecastCard';
 import DetailedReport from './DetailedReport';
 import SearchImg from '../Assets/Search.png';
-import { useParams } from "react-router-dom";
 import './ForecastPage.css';
 
 const API_KEY = "bd122209090a4fd7ec889794a711eac3";
 const API_URL = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}`;
 const WEATHERAPI_KEY = "a45fabf4f5b3470b8ef110626250104";
 
-const ForecastPage = () => {
-  const [currentCity, setCurrentCity] = useState(""); // The city shown in the search bar
-  const [typedCity, setTypedCity] = useState(""); // The city shown in the search bar
-  const [cityFound, setCityFound] = useState(false); // The city shown in the search bar
-
-  const [forecastType, setForecastType] = useState("hourly");
-  const [selectedForecast, setSelectedForecast] = useState(null);
-  const [weather, setWeather] = useState(null);
-  const [forecast, setForecast] = useState([]);
-
-  useEffect(() => {
-    const savedCity = localStorage.getItem("defaultCity");
-    if (savedCity) {
-      setTypedCity(savedCity); // Ensure the typedCity is also set to that value
-      handleSearch(savedCity); // Fetch weather data for the saved city
-      localStorage.removeItem("defaultCity"); // Clear storage after use
-    }
-  }, []);
-
-// Handle search button click
-const handleSearchClick = () => {
-  if (typedCity) {
-    handleSearch(typedCity); // Trigger the search with the typed city (use typedCity instead of city)
-  } else {
-    console.log("Please enter a city"); // Handle empty search case
-  }
-};
-
 const fetchWeather = async (city) => {
   try {
     const response = await fetch(`${API_URL}&q=${city}`);
-
-    // Check if the response is successful (status code 2xx)
-    if (!response.ok) {
-      if (response.status === 404) {
-        console.log("City \"" + city + "\" not found. Please check the city name.");
-        setCityFound(false); // Set cityFound to false if city is not found
-        setCurrentCity(""); // Reset current city if not found
-        return null; // Return null if city is not found, no exception is thrown
-      } else {
-        // For other error status codes (e.g., 500), just log the error and return null
-        console.log(`Error: ${response.status} - ${response.statusText}`);
-        return null; // You can decide to return null or handle differently
-      }
-    }
-    setCityFound(true);
-    setCurrentCity(city); // Set the current city to the one found
     const data = await response.json();
     return {
       ...data,
@@ -69,11 +24,38 @@ const fetchWeather = async (city) => {
       clouds: data.clouds,
     };
   } catch (error) {
-    console.log("Error fetching weather data:", error.message);
-    //console.error("Error fetching weather:", error);
+    console.error("Error fetching weather:", error);
     return null;
   }
 }
+
+const fetchTwilightData = async (lat, lon) => {
+  try {
+    const response = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`);
+    const data = await response.json();
+    return {
+      astroTwilightBegin: data.results.astronomical_twilight_begin || "N/A",
+      astroTwilightEnd: data.results.astronomical_twilight_end || "N/A",
+    };
+  } catch (error) {
+    console.error("Error fetching twilight data:", error);
+    return {
+      astroTwilightBegin: "N/A",
+      astroTwilightEnd: "N/A",
+    };
+  }
+};
+
+const ForecastPage = ({initialCity}) => {
+  const [forecastType, setForecastType] = useState("hourly");
+  const [selectedForecast, setSelectedForecast] = useState(null);
+  const [city, setCity] = useState(initialCity || "London, GB");
+  const [weather, setWeather] = useState(null);
+  const [forecast, setForecast] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [dropdownHeight, setDropdownHeight] = useState(0);
 
   const calculateSeeing = (cloud, wind, humidity) => {
     if (cloud > 75 || wind > 30 || humidity > 90) return "1/5";
@@ -88,7 +70,6 @@ const fetchWeather = async (city) => {
     if (visibility >= 6000) return "Good";
     if (visibility >= 4000) return "Moderate";
     if (visibility >= 1000) return "Poor";
-    
     return "Very poor";
   };
 
@@ -111,57 +92,84 @@ const fetchWeather = async (city) => {
     };
   };
 
-  const handleSearch = async (searchCity) => {
-    if (!searchCity) {
-      console.log("No city provided.");
+  const fetchSuggestions = async (input) => {
+    if (!input || input.length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      setDropdownHeight(0);
       return;
     }
-  
+
     try {
-      // Fetch weather data
-      const data = await fetchWeather(searchCity);
-      if (!data) {
-        console.log("Error fetching weather data.");
-        return;
+      const response = await fetch(
+        `https://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${API_KEY}`
+      );
+      const data = await response.json();
+      setSuggestions(data);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+      setShowSuggestions(false);
+      setDropdownHeight(0);
+    }
+  };
+
+  // Debounce function to limit API calls while typing
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (isTyping && city.length >= 2) {
+        fetchSuggestions(city);
       }
-  
-      // Fetch astronomy data
-      const astronomy = await fetchAstronomyData(searchCity);
-      if (!astronomy) {
-        console.log("Error fetching weather data.");
-        return;
-      }
-  
-      // Set weather data along with astronomy data
+    }, 300); // 300ms delay before fetching suggestions
+
+    return () => clearTimeout(delayDebounce);
+  }, [city, isTyping]);
+
+  // Update dropdown height when suggestions change
+  useEffect(() => {
+    if (showSuggestions && suggestions.length > 0) {
+      // Approximate height: each item is ~40px high (based on padding)
+      const height = Math.min(suggestions.length * 40, 200); // Cap at 200px max-height
+      setDropdownHeight(height);
+    } else {
+      setDropdownHeight(0);
+    }
+  }, [showSuggestions, suggestions]);
+
+  useEffect(() => {
+    handleSearch("London, GB");
+  }, []);
+
+  const handleSearch = async (searchCity = city) => {
+    if (!searchCity) return;
+    setShowSuggestions(false);
+    setDropdownHeight(0);
+    const data = await fetchWeather(searchCity);
+    const astronomy = await fetchAstronomyData(searchCity);
+    const locationResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchCity}&limit=1&appid=${API_KEY}`);
+    const locationData = await locationResponse.json();
+    if (!locationData || !locationData[0]) return;
+    const { lat, lon } = locationData[0];
+
+    const twilight = await fetchTwilightData(lat, lon);
+
+    if (data) {
       setWeather({
         ...data,
         ...astronomy,
+        ...twilight,
       });
-  
-      // Fetch geo-location data (latitude and longitude)
-      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchCity}&limit=1&appid=${API_KEY}`);
-      const locationData = await response.json();
-      
-      // If no location data or no valid coordinates, log error and return
-      if (!locationData || !locationData[0]) {
-        console.log("Location data not found for: ", searchCity);
-        return;
-      }
-  
-      const { lat, lon } = locationData[0];
-  
-      // Fetch forecast based on latitude and longitude
+
       await fetchForecast(lat, lon);
-    } catch (error) {
-      console.error("Error during search process:", error);
     }
   };
 
   const currentDayConditions = [
-    { title: "Cloud Cover", value: cityFound ? weather?.clouds?.all || 0 : 0 },
-    { title: "Moon Phase", value: cityFound ? weather?.moonPhase || "N/A" : "N/A" },
-    { title: "Visibility", value: cityFound ? (weather && weather.visibility !== undefined ? getVisibilityDescription(weather.visibility) : "N/A") : "N/A" },
-    { title: "Seeing", value: cityFound ? (weather ? calculateSeeing(weather.clouds?.all || 0, weather.windSpeed || 0, weather.humidity || 0) : "N/A") : "N/A" },
+    { title: "Cloud Cover", value: weather?.clouds?.all || 0 },
+    { title: "Moon Phase", value: weather?.moonPhase || "Unknown" },
+    { title: "Visibility", value: getVisibilityDescription(weather?.visibility || 0) },
+    { title: "Seeing", value: calculateSeeing(weather?.clouds?.all || 0, weather?.windSpeed || 0, weather?.humidity || 0) },
   ];
 
   const conditionMappings = {
@@ -233,12 +241,12 @@ const fetchWeather = async (city) => {
       moonset: weather?.moonset || "N/A",
       windSpeed: item.wind?.speed ? `${Math.round(item.wind.speed)} km/h` : "N/A",
       windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
-      cloudCover: item.clouds?.all ? `${item.clouds.all}%` : "N/A",
+      cloudCover: item.clouds?.all !== undefined ? `${item.clouds.all}%` : "N/A",
       humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
+      dewPoint: item.main?.dew_point ? `${Math.round(item.main.dew_point)}°C` : "N/A",
       seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
       bortleScale: "N/A",
-      dewPoint: "N/A",
-      astroTwilight: "N/A",
+      astroTwilight: weather?.astroTwilightBegin ? `Begins: ${new Date(weather.astroTwilightBegin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : "N/A",
       visibility: item.visibility
         ? getVisibilityDescription(item.visibility * 1000)
         : "N/A"
@@ -261,12 +269,12 @@ const fetchWeather = async (city) => {
       moonset: weather?.moonset || "N/A",
       windSpeed: item.wind?.speed ? `${Math.round(item.wind.speed)} km/h` : "N/A",
       windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
-      cloudCover: item.clouds?.all ? `${item.clouds.all}%` : "N/A",
+      cloudCover: item.clouds?.all !== undefined ? `${item.clouds.all}%` : "N/A",
       humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
+      dewPoint: item.main?.dew_point ? `${Math.round(item.main.dew_point)}°C` : "N/A",
       seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
       bortleScale: "N/A",
-      dewPoint: "N/A",
-      astroTwilight: "N/A",
+      astroTwilight: weather?.astroTwilightBegin ? `Begins: ${new Date(weather.astroTwilightBegin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : "N/A",
       visibility: item.visibility
         ? getVisibilityDescription(item.visibility * 1000)
         : "N/A"
@@ -290,19 +298,77 @@ const fetchWeather = async (city) => {
     "Seeing": 3,
   };
 
+  // Function to handle input change
+  const handleInputChange = (e) => {
+    const input = e.target.value;
+    setCity(input);
+    setIsTyping(true);
+  };
+
+  // Function to handle suggestion click
+  const handleSuggestionClick = (suggestion) => {
+    const cityName = `${suggestion.name}, ${suggestion.country}`;
+    setCity(cityName);
+    setShowSuggestions(false);
+    setDropdownHeight(0);
+    handleSearch(cityName);
+  };
+
+  // Handle clicking outside to close suggestions
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showSuggestions && !event.target.closest('.search-container')) {
+        setShowSuggestions(false);
+        setDropdownHeight(0);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSuggestions]);
+
   return (
     <div className="forecast-page">
       <Navbar />
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Greater London, London"
-          className="location-input"
-          value={typedCity}
-          onChange={(e) => setTypedCity(e.target.value)}
-        />
-        <img className="search-img" src={SearchImg} alt="Search"  onClick={handleSearchClick}/>
+      <div className="search-section">
+        <div className="search-container">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search for a city..."
+              className="location-input"
+              value={city}
+              onChange={handleInputChange}
+              onFocus={() => {
+                if (city.length >= 2) {
+                  fetchSuggestions(city);
+                }
+              }}
+            />
+            <img className="search-img" src={SearchImg} alt="Search" onClick={() => handleSearch()} />
+          </div>
+          
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="suggestions-list">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion.name}
+                  {suggestion.state ? `, ${suggestion.state}` : ''}
+                  {suggestion.country ? `, ${suggestion.country}` : ''}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
+
+      {/* Push-down spacer that dynamically changes height */}
+      <div className="dropdown-spacer" style={{ height: `${dropdownHeight}px`, transition: 'height 0.3s ease-in-out' }}></div>
 
       <section className="stargazing-conditions">
         <h2>Stargazing Conditions</h2>
@@ -326,24 +392,17 @@ const fetchWeather = async (city) => {
       </section>
 
       <section className="tonights-conditions">
-      <h2>{currentCity && currentCity.trim() !== "" ? `Tonight’s Conditions in ${currentCity}` : "Tonight's Conditions"}</h2>
+        <h2>Tonight's Conditions</h2>
         <div className="forecast-tabs">
           <button onClick={() => setForecastType("hourly")} className={forecastType === "hourly" ? "active" : ""}>Hourly Forecast</button>
           <button onClick={() => setForecastType("weekly")} className={forecastType === "weekly" ? "active" : ""}>Weekly Forecast</button>
         </div>
-        {/* Conditional rendering based on cityFound */}
         <div className="forecast-cards">
-          {cityFound ? (
-            forecastData.map((forecast, index) => (
-              <div key={index} onClick={() => handleForecastSelect(forecast)}>
-                <ForecastCard {...forecast} />
-              </div>
-            ))
-          ) : (
-            <div className="not-found">
-              <p>City not found</p>
-            </div>   
-          )}
+          {forecastData.map((forecast, index) => (
+            <div key={index} onClick={() => handleForecastSelect(forecast)}>
+              <ForecastCard {...forecast} />
+            </div>
+          ))}
         </div>
       </section>
 

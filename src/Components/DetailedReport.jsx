@@ -9,18 +9,23 @@ const DetailedReport = ({
   moonset,
   dewPoint = "N/A", // Set default to "N/A"
   astroTwilight = "N/A", // Set default to "N/A"
-  transparency,
   windSpeed,
   windGusts,
   cloudCover,
   humidity,
   seeing,
-  bortleScale = "N/A", // Set default to "N/A"
   date,
   time, // Add time prop
   forecastType, // Add forecastType prop
-  weather // New weather prop to get data when not in overlay
 }) => {
+  const getVisibilityColor = (seeing) => {
+    const numeric = parseInt(seeing);
+    if (isNaN(numeric)) return "#C0C0C0"; // fallback for invalid values
+    if (numeric >= 4) return "#32CD32"; // Green for good seeing
+    if (numeric >= 2) return "#FFD700"; // Yellow for average seeing
+    return "#FF4F4F"; // Red for poor seeing
+  };
+
   return (
     <div className="detailed-report">
       <h2>Detailed Report</h2>
@@ -51,12 +56,12 @@ const DetailedReport = ({
         </div>
         <div className="dr-row">
           <div className="detail-item">
-            <span className="detail-label">Astro Twilight</span>
-            <span className="detail-value">{astroTwilight}</span>
+            <span className="detail-label">Seeing</span>
+            <span className="detail-value">{seeing || "N/A"}</span>
           </div>
           <div className="detail-item">
-            <span className="detail-label">Transparency</span>
-            <span className="detail-value">{transparency || "N/A"}</span>
+            <span className="detail-label">Astro Twilight</span>
+            <span className="detail-value">{astroTwilight}</span>
           </div>
         </div>
         <div className="dr-row">
@@ -77,16 +82,6 @@ const DetailedReport = ({
           <div className="detail-item">
             <span className="detail-label">Humidity</span>
             <span className="detail-value">{humidity || "N/A"}</span>
-          </div>
-        </div>
-        <div className="dr-row">
-          <div className="detail-item">
-            <span className="detail-label">Seeing</span>
-            <span className="detail-value">{seeing || "N/A"}</span>
-          </div>
-          <div className="detail-item">
-            <span className="detail-label">Bortle Scale</span>
-            <span className="detail-value">{bortleScale}</span>
           </div>
         </div>
         <div className="dr-row">
