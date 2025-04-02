@@ -29,12 +29,33 @@ const fetchWeather = async (city) => {
   }
 }
 
+const fetchTwilightData = async (lat, lon) => {
+  try {
+    const response = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`);
+    const data = await response.json();
+    return {
+      astroTwilightBegin: data.results.astronomical_twilight_begin || "N/A",
+      astroTwilightEnd: data.results.astronomical_twilight_end || "N/A",
+    };
+  } catch (error) {
+    console.error("Error fetching twilight data:", error);
+    return {
+      astroTwilightBegin: "N/A",
+      astroTwilightEnd: "N/A",
+    };
+  }
+};
+
 const ForecastPage = ({initialCity}) => {
   const [forecastType, setForecastType] = useState("hourly");
   const [selectedForecast, setSelectedForecast] = useState(null);
   const [city, setCity] = useState(initialCity || "");
   const [weather, setWeather] = useState(null);
   const [forecast, setForecast] = useState([]);
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const [dropdownHeight, setDropdownHeight] = useState(0);
 
   const calculateSeeing = (cloud, wind, humidity) => {
     if (cloud > 75 || wind > 30 || humidity > 90) return "1/5";
@@ -71,26 +92,76 @@ const ForecastPage = ({initialCity}) => {
     };
   };
 
+  const fetchSuggestions = async (input) => {
+    if (!input || input.length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      setDropdownHeight(0);
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.openweathermap.org/geo/1.0/direct?q=${input}&limit=5&appid=${API_KEY}`
+      );
+      const data = await response.json();
+      setSuggestions(data);
+      setShowSuggestions(true);
+    } catch (error) {
+      console.error("Error fetching suggestions:", error);
+      setSuggestions([]);
+      setShowSuggestions(false);
+      setDropdownHeight(0);
+    }
+  };
+
+  // Debounce function to limit API calls while typing
+  useEffect(() => {
+    const delayDebounce = setTimeout(() => {
+      if (isTyping && city.length >= 2) {
+        fetchSuggestions(city);
+      }
+    }, 300); // 300ms delay before fetching suggestions
+
+    return () => clearTimeout(delayDebounce);
+  }, [city, isTyping]);
+
+  // Update dropdown height when suggestions change
+  useEffect(() => {
+    if (showSuggestions && suggestions.length > 0) {
+      // Approximate height: each item is ~40px high (based on padding)
+      const height = Math.min(suggestions.length * 40, 200); // Cap at 200px max-height
+      setDropdownHeight(height);
+    } else {
+      setDropdownHeight(0);
+    }
+  }, [showSuggestions, suggestions]);
+
   useEffect(() => {
     if (initialCity) {
       handleSearch(initialCity); 
     }
   }, [initialCity]);
 
-  const handleSearch = async () => {
-    if (!city) return;
-    const data = await fetchWeather(city);
-    const astronomy = await fetchAstronomyData(city);
+  const handleSearch = async (searchCity = city) => {
+    if (!searchCity) return;
+    setShowSuggestions(false);
+    setDropdownHeight(0);
+    const data = await fetchWeather(searchCity);
+    const astronomy = await fetchAstronomyData(searchCity);
+    const locationResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchCity}&limit=1&appid=${API_KEY}`);
+    const locationData = await locationResponse.json();
+    if (!locationData || !locationData[0]) return;
+    const { lat, lon } = locationData[0];
+
+    const twilight = await fetchTwilightData(lat, lon);
+
     if (data) {
       setWeather({
         ...data,
         ...astronomy,
+        ...twilight,
       });
-
-      const response = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${API_KEY}`);
-      const locationData = await response.json();
-      if (!locationData || !locationData[0]) return;
-      const { lat, lon } = locationData[0];
 
       await fetchForecast(lat, lon);
     }
@@ -172,12 +243,12 @@ const ForecastPage = ({initialCity}) => {
       moonset: weather?.moonset || "N/A",
       windSpeed: item.wind?.speed ? `${Math.round(item.wind.speed)} km/h` : "N/A",
       windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
-      cloudCover: item.clouds?.all ? `${item.clouds.all}%` : "N/A",
+      cloudCover: item.clouds?.all !== undefined ? `${item.clouds.all}%` : "N/A",
       humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
+      dewPoint: item.main?.dew_point ? `${Math.round(item.main.dew_point)}°C` : "N/A",
       seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
       bortleScale: "N/A",
-      dewPoint: "N/A",
-      astroTwilight: "N/A",
+      astroTwilight: weather?.astroTwilightBegin ? `Begins: ${new Date(weather.astroTwilightBegin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : "N/A",
       visibility: item.visibility
         ? getVisibilityDescription(item.visibility * 1000)
         : "N/A"
@@ -200,12 +271,12 @@ const ForecastPage = ({initialCity}) => {
       moonset: weather?.moonset || "N/A",
       windSpeed: item.wind?.speed ? `${Math.round(item.wind.speed)} km/h` : "N/A",
       windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
-      cloudCover: item.clouds?.all ? `${item.clouds.all}%` : "N/A",
+      cloudCover: item.clouds?.all !== undefined ? `${item.clouds.all}%` : "N/A",
       humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
+      dewPoint: item.main?.dew_point ? `${Math.round(item.main.dew_point)}°C` : "N/A",
       seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
       bortleScale: "N/A",
-      dewPoint: "N/A",
-      astroTwilight: "N/A",
+      astroTwilight: weather?.astroTwilightBegin ? `Begins: ${new Date(weather.astroTwilightBegin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : "N/A",
       visibility: item.visibility
         ? getVisibilityDescription(item.visibility * 1000)
         : "N/A"
@@ -229,18 +300,76 @@ const ForecastPage = ({initialCity}) => {
     "Seeing": 3,
   };
 
+  // Function to handle input change
+  const handleInputChange = (e) => {
+    const input = e.target.value;
+    setCity(input);
+    setIsTyping(true);
+  };
+
+  // Function to handle suggestion click
+  const handleSuggestionClick = (suggestion) => {
+    const cityName = `${suggestion.name}, ${suggestion.country}`;
+    setCity(cityName);
+    setShowSuggestions(false);
+    setDropdownHeight(0);
+    handleSearch(cityName);
+  };
+
+  // Handle clicking outside to close suggestions
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showSuggestions && !event.target.closest('.search-container')) {
+        setShowSuggestions(false);
+        setDropdownHeight(0);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showSuggestions]);
+
   return (
     <div className="forecast-page">
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Greater London, London"
-          className="location-input"
-          value={city}
-          onChange={(e) => setCity(e.target.value)}
-        />
-        <img className="search-img" src={SearchImg} alt="Search"  onClick={handleSearch}/>
+      <div className="search-section">
+        <div className="search-container">
+          <div className="search-bar">
+            <input
+              type="text"
+              placeholder="Search for a city..."
+              className="location-input"
+              value={city}
+              onChange={handleInputChange}
+              onFocus={() => {
+                if (city.length >= 2) {
+                  fetchSuggestions(city);
+                }
+              }}
+            />
+            <img className="search-img" src={SearchImg} alt="Search" onClick={() => handleSearch()} />
+          </div>
+          
+          {showSuggestions && suggestions.length > 0 && (
+            <ul className="suggestions-list">
+              {suggestions.map((suggestion, index) => (
+                <li
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                >
+                  {suggestion.name}
+                  {suggestion.state ? `, ${suggestion.state}` : ''}
+                  {suggestion.country ? `, ${suggestion.country}` : ''}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
+
+      {/* Push-down spacer that dynamically changes height */}
+      <div className="dropdown-spacer" style={{ height: `${dropdownHeight}px`, transition: 'height 0.3s ease-in-out' }}></div>
 
       <section className="stargazing-conditions">
         <h2>Stargazing Conditions</h2>
@@ -264,7 +393,7 @@ const ForecastPage = ({initialCity}) => {
       </section>
 
       <section className="tonights-conditions">
-        <h2>Tonight’s Conditions</h2>
+        <h2>Tonight's Conditions</h2>
         <div className="forecast-tabs">
           <button onClick={() => setForecastType("hourly")} className={forecastType === "hourly" ? "active" : ""}>Hourly Forecast</button>
           <button onClick={() => setForecastType("weekly")} className={forecastType === "weekly" ? "active" : ""}>Weekly Forecast</button>
