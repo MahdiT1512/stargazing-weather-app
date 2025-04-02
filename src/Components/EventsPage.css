@@ -30,6 +30,7 @@
     text-align: center;
 }
 
+/* Event Card Styles */
 .event-card {
     display: flex;
     flex-direction: column;
@@ -136,5 +137,39 @@
 
     .event-card {
         max-width: 45rem; /* Make cards a bit larger on tablets */
+    }
+}
+
+/* Very Small Screen Adjustments (e.g., for screens < 480px) */
+@media (max-width: 480px) {
+    .events-container {
+        width: 100%;
+        padding: 0.5rem; /* Very small padding on extra small screens */
+    }
+
+    .events-container h1 {
+        font-size: 1.75rem; /* Smaller heading size for tiny screens */
+    }
+
+    .event-card {
+        max-width: 100%;
+        margin-bottom: 1rem; /* Add space between cards */
+    }
+
+    .event-card img {
+        height: 120px; /* Smaller image for very small screens */
+    }
+
+    .event-card h2 {
+        font-size: 1.25rem; /* Smaller title on small screens */
+    }
+
+    .event-card p {
+        font-size: 0.85rem; /* Smaller paragraph font size on small screens */
+    }
+
+    .event-card .event-date,
+    .event-card .event-location {
+        font-size: 0.9rem; /* Even smaller date/location text */
     }
 }
