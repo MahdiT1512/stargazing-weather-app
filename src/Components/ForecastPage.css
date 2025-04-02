@@ -156,18 +156,6 @@
   background-color: #f5f5f5;
 }
 
-.dropdown-spacer {
-  width: 100%;
-  height: 0;
-  transition: height 0.3s ease-in-out;
-}
-
-.stargazing-conditions,
-.tonights-conditions {
-  position: relative;
-  z-index: 10;
-}
-
 /* ========== STARGAZING CONDITIONS ========== */
 .stargazing-conditions {
   max-width: 100%;
@@ -184,12 +172,11 @@
 
 .conditions-cards {
   display: flex;
-  width: 90rem;
   justify-content: space-between;
   align-items: center;
-  align-content: center;
-  row-gap: 3.9375rem;
   flex-wrap: wrap;
+  gap: 3.9375rem;
+  width: 90%;
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -214,7 +201,6 @@
 
 .condition-info {
   display: flex;
-  width: 100%;
   justify-content: center;
   align-items: center;
   gap: 1rem;
@@ -233,21 +219,17 @@
   font-size: 3.125rem;
   font-weight: 700;
   line-height: normal;
-  max-width: fit-content;
 }
 
 .condition-subtitle {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  flex: 1 0 0;
-  align-self: stretch;
   color: #808080;
   text-align: center;
   font-family: Inter, sans-serif;
   font-size: 0.9375rem;
   font-weight: 700;
-  line-height: normal;
 }
 
 /* ========== TONIGHT'S CONDITIONS ========== */
@@ -348,7 +330,6 @@
   color: #C0C0C0;
   font-family: Inter, sans-serif;
   font-weight: 700;
-  line-height: normal;
 }
 
 .forecast-time {
