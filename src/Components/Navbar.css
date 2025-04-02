@@ -5,15 +5,17 @@
   height: 4.375rem;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
-  background: #121826;
-  box-sizing: border-box;
+  padding: 0 1rem; /* Adding some padding for spacing */
+  flex-shrink: 0;
+  background: #121826; /* Adding a dark background to the navbar */
+  box-sizing: border-box; /* Ensures padding is included in total width */
 }
 
 .logo {
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: auto; /* Removed fixed width to make it more flexible */
   padding: 0.875rem;
 }
 
@@ -22,11 +24,13 @@
   font-size: 1.65rem;
   font-weight: 700;
   color: #fff;
+  line-height: normal;
 }
 
 .logo-image {
   max-width: 3.5rem;
-  height: auto;
+  height: auto; /* Adjusts the height proportionally */
+  flex-shrink: 0;
 }
 
 /* ========== NAV LINKS ========== */
@@ -36,7 +40,6 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  justify-content: center; /* Center links by default */
 }
 
 .nav-links a {
@@ -46,58 +49,83 @@
   font-size: 1.25rem;
   font-weight: 400;
   text-decoration: none;
-  padding: 1rem 0;
-  transition: color 0.2s ease;
+  padding: 1rem 0; /* Reduced padding for better balance */
+  transition: color 0.2s ease; /* Smooth color transition */
 }
 
 .nav-links a:hover,
 .nav-links a.active {
   color: #1f78ec;
-  text-decoration: underline;
+  text-decoration: underline; /* Underline added for better hover effect */
 }
 
-/* Mobile Menu */
-.mobile-menu-icon {
-  display: none; /* Hidden by default */
-  font-size: 2rem;
-  background: none;
-  border: none;
+/* ========== LOGIN BUTTON ========== */
+.login-btn {
+  background: #1f78ec;
   color: #fff;
+  border: none;
+  padding: 0.875rem 1.3125rem;
+  border-radius: 4rem;
   cursor: pointer;
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background-color 0.3s ease;
 }
 
-.nav-links.active {
-  display: block; /* Show menu when active */
+.login-btn:hover {
+  background: #003e81; /* Darker blue on hover */
 }
 
 /* ========== RESPONSIVE STYLES ========== */
 @media (max-width: 768px) {
   .navbar {
+    height: auto; /* Allow navbar to stack on smaller screens */
     flex-direction: column;
-    align-items: center;
-    height: auto;
+    align-items: flex-start;
     padding: 1rem;
+  }
+
+  .logo {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 1rem; /* Added margin for spacing */
+  }
+
+  .logo-name {
+    font-size: 1.5rem; /* Adjusted font size for smaller screens */
   }
 
   .nav-links {
     flex-direction: column;
-    display: none; /* Hidden by default */
     gap: 1rem;
-    width: 100%;
-    align-items: center;
+    align-items: flex-start;
+    padding-top: 1rem;
+    width: 100%; /* Make nav links full width for better alignment */
   }
 
-  .mobile-menu-icon {
-    display: block; /* Show mobile menu icon on small screens */
+  .nav-links a {
+    padding: 0.75rem 0;
+    font-size: 1.125rem; /* Adjusted font size for readability */
+  }
+
+  .login-btn {
+    width: 100%; /* Make the login button full width on mobile */
+    padding: 1rem;
+    font-size: 1.125rem;
   }
 }
 
 @media (max-width: 480px) {
   .logo-name {
-    font-size: 1.25rem;
+    font-size: 1.25rem; /* Further reduce the logo name size */
   }
 
   .nav-links a {
-    font-size: 1rem;
+    font-size: 1rem; /* Adjust for even smaller screens */
+  }
+
+  .login-btn {
+    font-size: 1rem; /* Adjust button font size for small screens */
   }
 }
