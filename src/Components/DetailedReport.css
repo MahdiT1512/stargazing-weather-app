@@ -4,7 +4,6 @@
   border-radius: 8px;
   color: #fff;
   font-family: 'Inter', sans-serif;
-  /* Make it wider so it fills more space */
   width: 90%;
   max-width: 1200px;
   margin: 1rem auto;
@@ -14,6 +13,7 @@
   gap: 1rem;
 }
 
+/* Heading Style */
 .detailed-report h2 {
   text-align: center;
 }
@@ -23,7 +23,6 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  justify-content: center;
   background: #121826;
   padding: 1rem;
   border-radius: 4px;
@@ -47,6 +46,7 @@
   display: flex;
   gap: 1rem;
   width: 100%;
+  flex-wrap: wrap; /* Ensures that items wrap on smaller screens */
 }
 
 /* Let each detail-item grow/shrink to fill row evenly */
@@ -56,6 +56,7 @@
   padding: 1rem;
   border-radius: 4px;
   text-align: center;
+  min-width: 150px; /* Ensures minimum width on small screens */
 }
 
 /* Label styling */
@@ -71,4 +72,38 @@
   font-size: 1.25rem;
   font-weight: 700;
   color: #fff;
+}
+
+/* Responsive Design - Mobile Adjustments */
+@media (max-width: 768px) {
+  .detailed-report {
+    padding: 1rem; /* Reduced padding for smaller screens */
+    width: 95%; /* More width for smaller screens */
+  }
+
+  .date-and-time {
+    flex-direction: column; /* Stack date/time vertically on small screens */
+    padding: 0.8rem;
+  }
+
+  .date-and-time h3 {
+    font-size: 1.1rem; /* Slightly smaller font size for mobile */
+  }
+
+  .dr-row {
+    flex-direction: column; /* Stack rows vertically on smaller screens */
+  }
+
+  .detail-item {
+    margin-bottom: 1rem; /* Add space between items on smaller screens */
+    min-width: 100%; /* Make detail items take full width */
+  }
+
+  .detail-label {
+    font-size: 0.85rem; /* Smaller font size for labels on mobile */
+  }
+
+  .detail-value {
+    font-size: 1.1rem; /* Slightly smaller value size for mobile */
+  }
 }
