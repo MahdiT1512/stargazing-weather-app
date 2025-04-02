@@ -1,149 +1,162 @@
+/* ========== GLOBAL RESET ========== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  
-  /* ========== FORECAST PAGE CONTAINER ========== */
-  .new-blog-page {
-    
-    width: 100%;
-    min-height: 100vh; 
-    background: linear-gradient(180deg, #0A0F1E 0%, #121826 50%, #000 100%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #fff;
-    font-family: Inter, sans-serif; 
-  }
-  
-  /* ========== NAVBAR ========== */
-  .navbar {
-    display: flex;
-    width: 90rem;
-    height: 4.375rem;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-    background-color: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
-  }
+/* ========== FORECAST PAGE CONTAINER ========== */
+.new-blog-page {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0A0F1E 0%, #121826 50%, #000 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-family: Inter, sans-serif;
+}
 
-  .logo{
-    display: flex;
-    width: 25rem;
-    padding: 0.875rem;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  
-  .logo-name {
-   display: flex;
-   text-align: center;
-   font-family: 'Montserrat', sans-serif;
-   font-size: 1.65rem;
-   font-style: normal;
-   font-weight: 700;
-   line-height: normal;
-  }
-  .logo-image{
-    max-width: 3.5rem;
-    height: 3.8125rem;
-    flex-shrink: 0;
-    
-  }
-  
+/* ========== NAVBAR ========== */
+.navbar {
+  display: flex;
+  width: 90rem;
+  height: 4.375rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
+  padding: 0 2rem; /* Added padding for spacing */
+}
 
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    list-style: none;
-  }
-  
-  .nav-links a {
-    color: #C0C0C0;                
-    text-align: center;           
-    font-family: Montserrat, sans-serif; 
-    font-size: 1.25rem;            
-    font-style: normal;
-    font-weight: 400;             
-    line-height: normal;
-    text-decoration: none;
-    padding: 3.5rem;
-  }
-  
-  .login-btn {
-    background: #1f78ec;
-    color: #fff;
-    border: none;
-    max-width: 16rem;
-    padding: 0.875rem 1.3125rem;
-    border-radius: 4rem;
-    cursor: pointer;
-  }
+.logo {
+  display: flex;
+  width: 25rem;
+  padding: 0.875rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
 
-/* Style for text inputs (Title & Camera) */
+.logo-name {
+  display: flex;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.logo-image {
+  max-width: 3.5rem;
+  height: 3.8125rem;
+  flex-shrink: 0;
+}
+
+/* ========== NAV LINKS ========== */
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #C0C0C0;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 3.5rem;
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #1f78ec;
+}
+
+.nav-links a.active {
+  color: #1f78ec;
+}
+
+/* ========== LOGIN BUTTON ========== */
+.login-btn {
+  background: #1f78ec;
+  color: #fff;
+  border: none;
+  max-width: 16rem;
+  padding: 0.875rem 1.3125rem;
+  border-radius: 4rem;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #003e81; /* Darker blue on hover */
+}
+
+/* ========== INPUT FIELDS ========== */
+/* Title input */
 .input-title {
-  font-size: 24px; /* Same as .post-title */
+  font-size: 24px;
   font-weight: bold;
   color: black;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   width: 80%;
-  max-width: 500px; /* Keep it consistent */
+  max-width: 500px;
   background: #f9f9f9;
   outline: none;
   margin-top: 2%;
 }
 
-/* Style for text inputs (Title & Camera) */
+/* Camera input */
 .input-camera {
-  font-size: 20px; /* Same as .post-title */
+  font-size: 20px;
   color: black;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   width: 80%;
-  max-width: 500px; /* Keep it consistent */
+  max-width: 500px;
   background: #f9f9f9;
   outline: none;
   margin-top: 2%;
 }
 
-
-/* Style for Textarea (Content) */
+/* Content Textarea */
 .input-content {
-  font-size: 20px; /* Same as .post-description */
+  font-size: 20px;
   color: black;
   padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
   width: 100%;
   max-width: 500px;
-  height: 150px; /* Adjust height as needed */
+  height: 150px;
   background: #f9f9f9;
-  resize: none; /* Prevent resizing */
+  resize: none;
   outline: none;
   margin-top: 2%;
-  font-family: inherit; /* Ensures it matches other text inputs */
+  font-family: inherit;
 }
 
-/* Add focus effect to inputs */
+/* Focused input fields */
 .input-title:focus, .input-camera:focus, .input-content:focus {
   border-color: #aaa; /* Light highlight on focus */
 }
 
+/* Post Container */
 .post-container {
   margin-top: 20px;
 }
 
+/* Post Header (for titles) */
 .post-header {
-  white-space: nowrap; /* Prevents text from wrapping */
-  overflow: hidden; /* Hides overflowing text */
-  text-overflow: ellipsis; /* Adds "..." if text is too long */
-  flex-wrap: nowrap; /* Forces everything to stay in one line */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-wrap: nowrap;
 }
 
 .post-user {
@@ -153,17 +166,18 @@
   padding-top: 0%;
 }
 
-  /* Hide the default file input */
+/* ========== FILE UPLOAD ========== */
+/* Hide default file input */
 .input-file {
   display: none;
 }
 
-/* Container to align button and file name */
+/* File input container */
 .file-input-container {
   margin-top: 2%;
   display: flex;
-  justify-content: space-between; /* Space between button and file name */
-  align-items: center; /* Center vertically */
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Custom file upload button */
@@ -178,19 +192,19 @@
   text-align: center;
 }
 
-/* Add hover effect */
+/* Hover effect on custom file upload button */
 .custom-file-label:hover {
-  background: #003e81; /* Blue color */
+  background: #003e81;
 }
 
-/* Style for the chosen file name */
+/* Chosen file name style */
 .file-name {
   font-size: 16px;
   color: white;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  max-width: 200px; /* Adjust as needed */
+  max-width: 200px;
 }
 
 .remove-file-btn {
@@ -208,11 +222,13 @@
   background: darkred;
 }
 
+/* File buttons container */
 .file-buttons {
   display: flex;
-  gap: 10px; /* Space between buttons */
+  gap: 10px;
 }
 
+/* Submit button */
 .submit-button {
   display: inline-block;
   padding: 10px 15px;
@@ -224,17 +240,54 @@
   text-align: center;
   margin-top: 2%;
 }
-/* Add hover effect */
+
+/* Hover effect on submit button */
 .submit-button:hover {
-  background: #003e81; /* Blue color */
+  background: #003e81;
 }
 
-.input-title, .input-camera {
+/* ========== RESPONSIVE STYLES ========== */
+@media (max-width: 768px) {
+  .navbar {
+    width: 100%;
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-  width: 100%; /* Makes both inputs take up the same width */
-  box-sizing: border-box; /* Ensures padding & borders don’t affect width */
+  .logo {
+    width: 100%;
+    justify-content: flex-start;
+  }
 
+  .nav-links {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    padding-top: 1rem;
+  }
+
+  .login-btn {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.125rem;
+  }
+
+  .input-title, .input-camera, .input-content {
+    width: 100%; /* Makes inputs take up full width on small screens */
+    max-width: 100%;
+  }
 }
 
-  
-  
+@media (max-width: 480px) {
+  .logo-name {
+    font-size: 1.25rem;
+  }
+
+  .nav-links a {
+    font-size: 1rem;
+  }
+
+  .submit-button, .custom-file-label {
+    font-size: 1rem;
+  }
+}
