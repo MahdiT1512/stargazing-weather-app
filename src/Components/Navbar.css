@@ -5,9 +5,8 @@
   height: 4.375rem;
   justify-content: space-between;
   align-items: center;
-  padding: 0 1rem; /* Added padding for spacing */
-  flex-shrink: 0;
-  background: #121826; /* Dark background */
+  padding: 0 1rem;
+  background: #121826;
   box-sizing: border-box;
 }
 
@@ -15,7 +14,6 @@
   display: flex;
   align-items: center;
   gap: 1rem;
-  width: auto; /* Flexible width */
   padding: 0.875rem;
 }
 
@@ -24,13 +22,11 @@
   font-size: 1.65rem;
   font-weight: 700;
   color: #fff;
-  line-height: normal;
 }
 
 .logo-image {
   max-width: 3.5rem;
   height: auto;
-  flex-shrink: 0;
 }
 
 /* ========== NAV LINKS ========== */
@@ -40,7 +36,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  justify-content: center; /* Centered nav links */
+  justify-content: center; /* Center links by default */
 }
 
 .nav-links a {
@@ -50,7 +46,7 @@
   font-size: 1.25rem;
   font-weight: 400;
   text-decoration: none;
-  padding: 1rem 0; /* Reduced padding for balance */
+  padding: 1rem 0;
   transition: color 0.2s ease;
 }
 
@@ -60,73 +56,48 @@
   text-decoration: underline;
 }
 
-/* ========== LOGIN BUTTON ========== */
-.login-btn {
-  background: #1f78ec;
-  color: #fff;
+/* Mobile Menu */
+.mobile-menu-icon {
+  display: none; /* Hidden by default */
+  font-size: 2rem;
+  background: none;
   border: none;
-  padding: 0.875rem 1.3125rem;
-  border-radius: 4rem;
+  color: #fff;
   cursor: pointer;
-  font-family: Montserrat, sans-serif;
-  font-size: 1rem;
-  font-weight: 700;
-  transition: background-color 0.3s ease;
 }
 
-.login-btn:hover {
-  background: #003e81; /* Darker blue on hover */
+.nav-links.active {
+  display: block; /* Show menu when active */
 }
 
 /* ========== RESPONSIVE STYLES ========== */
 @media (max-width: 768px) {
   .navbar {
-    height: auto; /* Navbar stacks on smaller screens */
     flex-direction: column;
     align-items: center;
+    height: auto;
     padding: 1rem;
-  }
-
-  .logo {
-    width: 100%;
-    justify-content: center; /* Centered logo */
-    margin-bottom: 1rem;
-  }
-
-  .logo-name {
-    font-size: 1.5rem; /* Adjusted for smaller screens */
   }
 
   .nav-links {
     flex-direction: column;
+    display: none; /* Hidden by default */
     gap: 1rem;
-    align-items: center; /* Centered nav links vertically */
-    padding-top: 1rem;
-    width: 100%; /* Full-width links */
+    width: 100%;
+    align-items: center;
   }
 
-  .nav-links a {
-    padding: 0.75rem 0;
-    font-size: 1.125rem; /* Adjusted font size for readability */
-  }
-
-  .login-btn {
-    width: 100%; /* Full-width login button */
-    padding: 1rem;
-    font-size: 1.125rem;
+  .mobile-menu-icon {
+    display: block; /* Show mobile menu icon on small screens */
   }
 }
 
 @media (max-width: 480px) {
   .logo-name {
-    font-size: 1.25rem; /* Further reduced font size */
+    font-size: 1.25rem;
   }
 
   .nav-links a {
-    font-size: 1rem; /* Adjusted for smaller screens */
-  }
-
-  .login-btn {
-    font-size: 1rem; /* Adjust button font size for small screens */
+    font-size: 1rem;
   }
 }
