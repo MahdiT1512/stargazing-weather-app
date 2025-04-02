@@ -14,11 +14,12 @@
 
 .events-container {
     display: flex;
-    width: 62.5rem;
     flex-direction: column;
     align-items: center;
     padding: 2rem 0;
     gap: 2rem;
+    width: 90%; /* Adjusted for responsiveness */
+    max-width: 1000px; /* Added max width for large screens */
 }
 
 .events-container h1 {
@@ -32,13 +33,14 @@
 .event-card {
     display: flex;
     flex-direction: column;
-    background-color: #1b1f29;;
+    background-color: #1b1f29;
     border-radius: 0.75rem;
     overflow: hidden;
     width: 100%;
     max-width: 30rem;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
     transition: transform 0.2s ease-in-out;
+    margin-bottom: 2rem; /* Add spacing between cards */
 }
 
 .event-card:hover {
@@ -90,4 +92,49 @@
 
 .event-card .event-date {
     margin-top: 0.5rem;
+}
+
+/* Responsive Design for Mobile */
+@media (max-width: 768px) {
+    .events-container {
+        padding: 1rem; /* Reduced padding for smaller screens */
+    }
+
+    .events-container h1 {
+        font-size: 2rem; /* Smaller font size for headings */
+    }
+
+    .event-card {
+        max-width: 100%; /* Make event cards take full width on mobile */
+        margin-bottom: 1rem; /* Add space between cards on mobile */
+    }
+
+    .event-card img {
+        height: 150px; /* Reduce image size for mobile */
+    }
+
+    .event-card h2 {
+        font-size: 1.5rem; /* Smaller title font size on mobile */
+    }
+
+    .event-card p {
+        font-size: 0.9rem; /* Smaller paragraph font size on mobile */
+    }
+
+    .event-card .event-date,
+    .event-card .event-location {
+        font-size: 1rem; /* Smaller font for date/location on mobile */
+    }
+}
+
+/* Responsive Design for Tablets */
+@media (max-width: 1024px) {
+    .events-container {
+        width: 90%;
+        padding: 1.5rem; /* Adjust padding for tablets */
+    }
+
+    .event-card {
+        max-width: 45rem; /* Make cards a bit larger on tablets */
+    }
 }
