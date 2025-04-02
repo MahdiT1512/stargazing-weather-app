@@ -98,7 +98,7 @@
     transition: background-color 0.1s ease-in-out;
 }
 .get-started-btn:hover {
-    background-color: #187bcd !important; 
+  background: #003e81; /* Darker blue on hover */
 }
 
  /* ========== NAVBAR ========== */

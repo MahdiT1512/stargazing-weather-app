@@ -110,6 +110,24 @@
    height: 2.1875rem;
    aspect-ratio: 9/7;
   }
+
+  .search-img:hover {
+    opacity: 70%;
+  }
+
+  .search-img:active {
+    opacity: 30%;
+  }
+
+  .not-found {
+    width: 100%; /* Ensures the container takes full width */
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    min-height: 200px; /* Optional: Add height to ensure it's centered vertically */
+    font-weight: bold;
+    font-size: 2rem;
+  }
   
   /* ========== STARGAZING CONDITIONS ========== */
   .stargazing-conditions {

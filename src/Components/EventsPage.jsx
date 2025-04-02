@@ -1,9 +1,11 @@
 import React from "react";
 import EventCard from "./EventCard";
 import './EventsPage.css';
+import Navbar from './Navbar';
 import pinkMoonImg from '../Assets/pinkmoon.jpg';
 import meteorShowerImg from '../Assets/MeteorShower.webp';
 import etaAquaridImg from '../Assets/etaMeteor.avif';
+
 const events = [
     {
         title: "Micro Pink Moon",
@@ -30,6 +32,7 @@ const events = [
 const EventsPage = () => {
     return (
         <div className="events-page">
+            <Navbar />
             <h1>Upcoming Astronomy Events</h1>
             <div className="events-container">
                 {events.map((event, index) => (
