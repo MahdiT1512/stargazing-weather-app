@@ -86,10 +86,10 @@ const CommunityPage = () => {
             <div key={index} className="post-container">
             {/* Left side - Image */}
             <img 
-              src={`http://localhost:5000${post.imageUrl}`} 
+              src={`http://localhost:5001${post.imageUrl}`} 
               alt="Failed to load image" 
               className="post-image"
-              onClick={() => openModal(`http://localhost:5000${post.imageUrl}`)}
+              onClick={() => openModal(`http://localhost:5001${post.imageUrl}`)}
             />
 
             {/* Full-Size Image Modal */}

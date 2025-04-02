@@ -4,9 +4,14 @@ const path = require('path');
 const fs = require('fs');
 const cors = require('cors');
 const app = express();
+const corsOptions = {
+  origin: 'http://localhost:3000',  // allow requests from React dev server
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+};
 
 // Enable CORS
-app.use(cors());
+app.use(cors(corsOptions));
 
 // Middleware to handle incoming data as JSON
 app.use(express.json());
@@ -42,6 +47,6 @@ app.post('/upload', upload.single('image'), (req, res) => {
 });
 
 // Start the server
-app.listen(5000, () => {
-  console.log('Server running on http://localhost:5000');
+app.listen(5001, () => {
+  console.log('Server running on http://localhost:5001');
 });
