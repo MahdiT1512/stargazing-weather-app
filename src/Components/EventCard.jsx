@@ -1,5 +1,4 @@
 import React from "react";
-import './EventsPage.css'; 
 
 const EventCard = ({title, date, location , description, img }) => {
     return (

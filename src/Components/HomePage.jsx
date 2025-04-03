@@ -1,5 +1,4 @@
 import React from 'react';
-import './HomePage.css';
 import ForecastPage from './ForecastPage';
 import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate hook

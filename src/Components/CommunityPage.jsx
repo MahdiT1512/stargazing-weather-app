@@ -4,7 +4,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import Navbar from './Navbar';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import SearchImg from '../Assets/Search.png';
-import './CommunityPage.css';
 import { db } from '../firebase/firebase';  // Assuming you have a firebase.js file where Firebase is initialized
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
 

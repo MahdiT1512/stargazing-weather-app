@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 import Logo from '../Assets/NavLogo.svg';
-import './Navbar.css';
 import LoginModal from './LoginModal';
 import SignupModal from './SignupModal';
 import { useAuth } from '../contexts/authContext';

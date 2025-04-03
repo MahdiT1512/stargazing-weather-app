@@ -1,5 +1,4 @@
 import React from 'react';
-import './DetailedReport.css';
 
 const DetailedReport = ({
   temperature,

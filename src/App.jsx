@@ -5,6 +5,7 @@ import ForecastPage from "./Components/ForecastPage";
 import CommunityPage from "./Components/CommunityPage";
 import EventsPage from "./Components/EventsPage";
 import NewBlog from "./Components/NewBlog";
+import "./style.css";
 
 const App = () => {
   return (

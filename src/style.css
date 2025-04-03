@@ -1,5 +1,1068 @@
+/* ==================== GLOBAL STYLES ==================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 html, body {
-    width: 100%;
-    overflow-x: hidden;
-    background: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
-  }
+  width: 100%;
+  overflow-x: hidden;
+  background: linear-gradient(180deg, #121826 0%, #121826 50%, #000 100%);
+}
+
+/* ==================== TYPOGRAPHY ==================== */
+/* Logo text styling */
+.logo-name {
+  display: flex;
+  text-align: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 700;
+  line-height: normal;
+  color: #fff;
+}
+
+/* ==================== NAVIGATION ==================== */
+.navbar {
+  display: flex;
+  width: 100%;
+  height: 4.375rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo {
+  display: flex;
+  width: 25rem;
+  padding: 0.875rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.logo-image {
+  max-width: 3.5rem;
+  height: 3.8125rem;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-links a {
+  color: #C0C0C0;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  text-decoration: none;
+  padding: 3.5rem;
+}
+
+.nav-links a:hover {
+  color: #1f78ec;
+}
+
+.nav-links a.active {
+  color: #1f78ec;
+}
+
+.login-btn {
+  background: #1f78ec;
+  color: #fff;
+  border: none;
+  max-width: 16rem;
+  padding: 0.875rem 1.3125rem;
+  border-radius: 4rem;
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background: #003e81; /* Darker blue on hover */
+}
+
+/* ==================== PAGE CONTAINERS ==================== */
+/* Common styles for all page containers */
+.community-page,
+.events-page,
+.forecast-page,
+.new-blog-page,
+.homepage {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #0A0F1E 0%, #121826 50%, #000 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  font-family: Inter, sans-serif;
+}
+
+/* Homepage-specific styles */
+.homepage {
+  position: relative;
+  overflow: hidden;
+}
+
+.homepage::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url('./Assets/HomeBackground.png') lightgray 50% / cover no-repeat;
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+/* ==================== HOME PAGE COMPONENTS ==================== */
+.home-container {
+  display: flex;
+  width: 62.5rem;
+  height: 25rem;
+  padding: 2.3125rem 6.5625rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  color: #fff;
+}
+
+.home-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  padding-right: 11rem;
+  color: #fff;
+  width: 62.5rem;
+  flex-direction: column;
+  justify-content: center;
+  align-self: stretch;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.home-description {
+  width: 46.25rem;
+  display: flex;
+  padding: 1.6875rem 0rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  align-self: stretch;
+  color: #FFF;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.get-started-btn {
+  width: 14.625rem;
+  height: 4.6875rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.75rem;
+  background-color: #1E90FF;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  color: #FFF;
+  text-align: center;
+  font-family: Montserrat, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.1s ease-in-out;
+}
+
+.get-started-btn:hover {
+  background: #003e81;
+}
+
+/* ==================== LOGIN MODAL ==================== */
+.login-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-modal {
+  background: #1b1f29;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.login-modal h2 {
+  color: #fff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.login-modal input {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: none;
+  background: #121826;
+  color: #fff;
+}
+
+.login-modal button[type="submit"] {
+  width: 100%;
+  padding: 0.8rem;
+  background: #1f78ec;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-modal p {
+  color: #C0C0C0;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.login-modal p span {
+  color: #1f78ec;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #ff4f4f;
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+/* ==================== SEARCH COMPONENTS ==================== */
+.search-section {
+  position: relative;
+  width: 100%;
+  z-index: 20;
+  padding-top: 2rem;
+}
+
+.search-container {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 10px;
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.location-input {
+  flex: 1;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.location-input:focus {
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.search-img {
+  position: absolute;
+  right: 15px;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+}
+
+/* Location suggestions dropdown */
+.suggestions-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 20;
+}
+
+.suggestions-list li {
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #000;
+}
+
+.suggestions-list li:last-child {
+  border-bottom: none;
+}
+
+.suggestions-list li:hover {
+  background-color: #f5f5f5;
+}
+
+.dropdown-spacer {
+  width: 100%;
+  height: 0;
+  transition: height 0.3s ease-in-out;
+}
+
+/* ==================== COMMUNITY/POSTS COMPONENTS ==================== */
+.post-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  background: #1b1f29;
+  margin-top: 20px;
+}
+
+.post-image {
+  width: 100%;
+  max-width: 500px;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.post-image:hover {
+  filter: brightness(70%);
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+  margin-left: 0;
+  max-width: 500px;
+  width: 100%;
+}
+
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-top: 3%;
+  max-width: 500px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-wrap: nowrap;
+}
+
+.post-title {
+  font-size: 24px;
+  margin: 0;
+  color: white;
+  text-align: left;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  flex: 1;
+  min-width: 0;
+  max-width: 70%;
+}
+
+.post-user, .post-date {
+  font-size: 14px;
+  color: rgb(185, 185, 185);
+  padding-top: 3%;
+  width: 100%;
+  text-align: right;
+}
+
+.post-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.post-camera {
+  font-size: 16px;
+  margin: 5px 0;
+  color: rgb(185, 185, 185);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+.post-description {
+  margin-top: 30px;
+  font-size: 20px;
+  color: white;
+  flex-wrap: wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+}
+
+/* ==================== POST CREATION COMPONENTS ==================== */
+.create-post-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 10px;
+  background: #1b1f29;
+}
+
+.logged-in {
+  color: white;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.create-post-button,
+.submit-button {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background: #1f78ec;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  border: none;
+}
+
+.create-post-button:hover,
+.submit-button:hover {
+  background: #003e81;
+}
+
+.create-post-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 85, 255, 0.5);
+}
+
+.submit-button {
+  margin-top: 2%;
+}
+
+/* Input fields for creating posts */
+.input-title,
+.input-camera {
+  width: 100%;
+  box-sizing: border-box;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #f9f9f9;
+  outline: none;
+  margin-top: 2%;
+}
+
+.input-title {
+  font-size: 24px;
+  font-weight: bold;
+  max-width: 500px;
+}
+
+.input-camera {
+  font-size: 20px;
+  max-width: 500px;
+}
+
+.input-content {
+  font-size: 20px;
+  color: black;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 500px;
+  height: 150px;
+  background: #f9f9f9;
+  resize: none;
+  outline: none;
+  margin-top: 2%;
+  font-family: inherit;
+}
+
+.input-title:focus,
+.input-camera:focus,
+.input-content:focus {
+  border-color: #aaa;
+}
+
+/* File upload styling */
+.input-file {
+  display: none;
+}
+
+.file-input-container {
+  margin-top: 2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.custom-file-label {
+  display: inline-block;
+  padding: 10px 15px;
+  font-size: 16px;
+  color: white;
+  background: #1f78ec;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.custom-file-label:hover {
+  background: #003e81;
+}
+
+.file-name {
+  font-size: 16px;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 200px;
+}
+
+.file-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.remove-file-btn {
+  display: inline-block;
+  padding: 8px 15px;
+  font-size: 16px;
+  color: white;
+  background: red;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.remove-file-btn:hover {
+  background: darkred;
+}
+
+/* ==================== MODAL COMPONENTS ==================== */
+.modal,
+.details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: auto;
+  z-index: 1000;
+}
+
+.modal-content,
+.overlay-content {
+  position: relative;
+  background: #1b1f29;
+  border-radius: 15px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+.modal-content img {
+  width: 100%;
+  height: auto;
+  max-height: 90vh;
+  display: block;
+  margin: auto;
+}
+
+.overlay-content {
+  padding: 2rem;
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  max-height: 800px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Modal image close button */
+.modal-content .close-btn {
+  top: 10px;
+  right: 15px;
+  background: white;
+  border: none;
+  font-size: 20px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  color: black;
+}
+
+/* ==================== EVENTS COMPONENTS ==================== */
+.events-container {
+  display: flex;
+  width: 62.5rem;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 0;
+  gap: 2rem;
+}
+
+.events-container h1 {
+  font-family: Montserrat, sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.event-card {
+  display: flex;
+  flex-direction: column;
+  background-color: #1b1f29;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  width: 100%;
+  max-width: 30rem;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  transition: transform 0.2s ease-in-out;
+}
+
+.event-card:hover {
+  transform: translateY(-10px);
+}
+
+.event-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.event-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.event-card h2 {
+  font-family: Montserrat, sans-serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+}
+
+.event-card p {
+  font-family: Montserrat, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  text-align: center;
+  line-height: 1.5;
+}
+
+.event-card .event-date,
+.event-card .event-location {
+  font-family: Montserrat, sans-serif;
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: #A9A9A9;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+/* ==================== FORECAST COMPONENTS ==================== */
+.stargazing-conditions {
+  max-width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.stargazing-conditions h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+.conditions-cards {
+  display: flex;
+  width: 90rem;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  row-gap: 3.9375rem;
+  flex-wrap: wrap;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+/* Condition card styles */
+.condition-card {
+  background: #1b1f29;
+  max-width: 25rem;
+  height: 12.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+}
+
+.condition-card h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.condition-info {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.condition-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7.5rem;
+}
+
+.condition-value {
+  color: #fff;
+  font-family: Inter, sans-serif;
+  font-size: 3.125rem;
+  font-weight: 700;
+  line-height: normal;
+  max-width: fit-content;
+}
+
+.condition-subtitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #808080;
+  text-align: center;
+  font-family: Inter, sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+/* Tonight's conditions */
+.tonights-conditions {
+  width: 100%;
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+}
+
+.tonights-conditions h2 {
+  margin-bottom: 1rem;
+  font-size: 1.75rem;
+}
+
+/* Forecast tabs */
+.forecast-tabs {
+  display: flex;
+  gap: 0.625rem;
+  margin-bottom: 1.5rem;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  border: 1px solid #000;
+  background: #1B263B;
+}
+
+.forecast-tabs button {
+  background: transparent;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: Inter, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.forecast-tabs .active {
+  background: #1f78ec;
+  color: white;
+}
+
+/* Forecast cards container */
+.forecast-cards {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4rem;
+  width: 100%;
+  padding: 0 12rem;
+}
+
+/* Individual forecast card */
+.forecast-card {
+  background: #1B1F29;
+  min-height: 22.875rem;
+  width: 17rem;
+  max-width: 20rem;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.forecast-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 8px 8px rgba(0, 0, 0, 0.3);
+  background: #2B2F3B;
+}
+
+.forecast-card:active {
+  transform: translateY(1px);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+/* Forecast card time and date elements */
+.forecast-time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #C0C0C0;
+  font-family: Inter, sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.forecast-date {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  flex: 1 0 0;
+  align-self: stretch;
+  color: #C0C0C0;
+  font-family: Inter, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+/* Forecast card content elements */
+.forecast-temp {
+  display: flex;
+  height: 4.6875rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  flex-shrink: 0;
+  align-self: stretch;
+  color: #FFF;
+  font-family: Inter, sans-serif;
+  font-size: 4.375rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.wind-speed-label,
+.visibility-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  align-self: stretch;
+  color: #C0C0C0;
+  font-family: Inter, sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.wind-speed-label {
+  height: 1.875rem;
+}
+
+.wind-speed-value {
+  display: flex;
+  height: 4.375rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  align-self: stretch;
+  font-family: Inter, sans-serif;
+  font-size: 3.125rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.visibility-value {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  align-self: stretch;
+  color: #32CD32;
+  font-family: Inter, sans-serif;
+  font-size: 3.125rem;
+  font-weight: 700;
+  line-height: normal;
+}
+
+.unit {
+  font-size: 0.6em;
+  vertical-align: super;
+  opacity: 0.8;
+}
+
+/* ==================== DETAILED REPORT ==================== */
+.detailed-report {
+  background: #1b1f29;
+  padding: 1.5rem 2rem;
+  border-radius: 8px;
+  color: #fff;
+  font-family: 'Inter', sans-serif;
+  width: 90%;
+  max-width: 1200px;
+  margin: 1rem auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.detailed-report h2 {
+  text-align: center;
+}
+
+.date-and-time {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #121826;
+  padding: 1rem;
+  border-radius: 4px;
+}
+
+.date-and-time h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.dr-row {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+.detail-item {
+  flex: 1;
+  background: #121826;
+  padding: 1rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.detail-label {
+  display: block;
+  font-size: 0.95rem;
+  color: #C0C0C0;
+  margin-bottom: 0.4rem;
+}
+
+.detail-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+}

@@ -1,6 +1,5 @@
 import React from "react";
 import EventCard from "./EventCard";
-import './EventsPage.css';
 import Navbar from './Navbar';
 import pinkMoonImg from '../Assets/pinkmoon.jpg';
 import meteorShowerImg from '../Assets/MeteorShower.webp';

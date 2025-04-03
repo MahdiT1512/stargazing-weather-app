@@ -4,7 +4,6 @@ import ConditionCard from './ConditionCard';
 import ForecastCard from './ForecastCard';
 import DetailedReport from './DetailedReport';
 import SearchImg from '../Assets/Search.png';
-import './ForecastPage.css';
 
 const API_KEY = "bd122209090a4fd7ec889794a711eac3";
 const API_URL = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}`;

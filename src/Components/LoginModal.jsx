@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { doSignInWithEmailAndPassword } from '../firebase/auth';
 import { useAuth } from '../contexts/authContext';
-import './LoginModal.css';
 
 const LoginModal = ({ onClose, switchToSignup }) => {
 
