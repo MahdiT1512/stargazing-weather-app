@@ -6,8 +6,8 @@ const DetailedReport = ({
   moonPhase,
   moonrise,
   moonset,
-  dewPoint = "N/A", // Set default to "N/A"
-  astroTwilight = "N/A", // Set default to "N/A"
+  dewPoint,
+  astroTwilight,
   windSpeed,
   windGusts,
   cloudCover,

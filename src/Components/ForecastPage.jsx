@@ -11,6 +11,27 @@ const API_URL = `https://api.openweathermap.org/data/2.5/weather?units=metric&ap
 const WEATHERAPI_KEY = "a45fabf4f5b3470b8ef110626250104";
 
 /**
+ * Calculates dew point from temperature and relative humidity
+ * @param {number} tempC - Temperature in Celsius
+ * @param {number} relativeHumidity - Relative Humidity (0-100)
+ * @returns {number} Dew point temperature in Celsius
+ */
+const calculateDewPoint = (tempC, relativeHumidity) => {
+  // Using the Magnus-Tetens approximation formula
+  // Constants for temperature range -45°C to 60°C
+  const a = 17.27;
+  const b = 237.7;
+  
+  // Calculate the term inside the log
+  const alpha = ((a * tempC) / (b + tempC)) + Math.log(relativeHumidity / 100);
+  
+  // Calculate the dew point
+  const dewPoint = (b * alpha) / (a - alpha);
+  
+  return Math.round(dewPoint);
+};
+
+/**
  * Fetches current weather data for a specified city
  * @param {string} city - City name to fetch weather for
  * @returns {Object|null} Weather data object or null if fetch fails
@@ -19,11 +40,16 @@ const fetchWeather = async (city) => {
   try {
     const response = await fetch(`${API_URL}&q=${city}`);
     const data = await response.json();
+    
+    // Calculate dew point from temperature and humidity
+    const dewPoint = calculateDewPoint(data.main.temp, data.main.humidity);
+    
     return {
       ...data,
       visibility: data.visibility, // in meters
       temperature: data.main.temp,
       humidity: data.main.humidity,
+      dewPoint: dewPoint,
       windSpeed: data.wind.speed,
       windGusts: data.wind.gust,
       clouds: data.clouds,
@@ -111,7 +137,18 @@ const ForecastPage = ({initialCity}) => {
   const fetchForecast = async (lat, lon) => {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
     const data = await response.json();
-    setForecast(data.list || []);
+    
+    // Process forecast data to include calculated dew point
+    const processedForecast = data.list.map(item => {
+      // Calculate dew point for each forecast point
+      const dewPoint = calculateDewPoint(item.main.temp, item.main.humidity);
+      return {
+        ...item,
+        calculatedDewPoint: dewPoint
+      };
+    });
+    
+    setForecast(processedForecast || []);
   };
 
   /**
@@ -121,15 +158,25 @@ const ForecastPage = ({initialCity}) => {
    */
   const fetchAstronomyData = async (city) => {
     const today = new Date().toISOString().split('T')[0];
-    const response = await fetch(
-      `https://api.weatherapi.com/v1/astronomy.json?key=${WEATHERAPI_KEY}&q=${city}&dt=${today}`
-    );
-    const data = await response.json();
-    return {
-      moonPhase: data?.astronomy?.astro?.moon_phase || "Unknown",
-      moonrise: data?.astronomy?.astro?.moonrise || "N/A",
-      moonset: data?.astronomy?.astro?.moonset || "N/A",
-    };
+    try {
+      const response = await fetch(
+        `https://api.weatherapi.com/v1/forecast.json?key=${WEATHERAPI_KEY}&q=${city}&dt=${today}`
+      );
+      const data = await response.json();
+      return {
+        moonPhase: data?.forecast?.forecastday?.[0]?.astro?.moon_phase || "Unknown",
+        moonrise: data?.forecast?.forecastday?.[0]?.astro?.moonrise || "N/A",
+        moonset: data?.forecast?.forecastday?.[0]?.astro?.moonset || "N/A",
+        // Removed the problematic dew point calculation here
+      };
+    } catch (error) {
+      console.error("Error fetching astronomy data:", error);
+      return {
+        moonPhase: "Unknown",
+        moonrise: "N/A",
+        moonset: "N/A",
+      };
+    }
   };
 
   /**
@@ -300,6 +347,10 @@ const ForecastPage = ({initialCity}) => {
   // Process hourly forecast data from API response
   const hourlyForecastData = forecast.slice(0, 4).map(item => {
     const date = new Date(item.dt * 1000);
+    
+    // Fix: Ensure visibility values are properly calculated
+    const visibilityValue = item.visibility ? getVisibilityDescription(item.visibility) : "N/A";
+    
     return {
       time: date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       date: date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }),
@@ -311,13 +362,13 @@ const ForecastPage = ({initialCity}) => {
       windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
       cloudCover: item.clouds?.all !== undefined ? `${item.clouds.all}%` : "N/A",
       humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
-      dewPoint: item.main?.dew_point ? `${Math.round(item.main.dew_point)}°C` : "N/A",
+      // Use the calculated dew point
+      dewPoint: item.calculatedDewPoint !== undefined ? `${item.calculatedDewPoint}°C` : "N/A",
       seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
       bortleScale: "N/A",
       astroTwilight: weather?.astroTwilightBegin ? `Begins: ${new Date(weather.astroTwilightBegin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : "N/A",
-      visibility: item.visibility
-        ? getVisibilityDescription(item.visibility * 1000)
-        : "N/A"
+      // Fixed: Use visibility value that's already been processed through getVisibilityDescription
+      visibility: visibilityValue
     };
   });
 
@@ -331,6 +382,10 @@ const ForecastPage = ({initialCity}) => {
   // Format weekly forecast data
   const weeklyForecastData = Array.from(dailyMap.values()).slice(0, 4).map(item => {
     const date = new Date(item.dt * 1000);
+    
+    // Fix: Ensure visibility values are properly calculated
+    const visibilityValue = item.visibility ? getVisibilityDescription(item.visibility) : "N/A";
+    
     return {
       time: date.toLocaleDateString(undefined, { weekday: 'long' }),
       date: date.toLocaleDateString(undefined, { month: 'long', day: 'numeric' }),
@@ -342,13 +397,13 @@ const ForecastPage = ({initialCity}) => {
       windGusts: item.wind?.gust ? `${Math.round(item.wind.gust)} km/h` : "N/A",
       cloudCover: item.clouds?.all !== undefined ? `${item.clouds.all}%` : "N/A",
       humidity: item.main?.humidity ? `${item.main.humidity}%` : "N/A",
-      dewPoint: item.main?.dew_point ? `${Math.round(item.main.dew_point)}°C` : "N/A",
+      // Use the calculated dew point
+      dewPoint: item.calculatedDewPoint !== undefined ? `${item.calculatedDewPoint}°C` : "N/A",
       seeing: calculateSeeing(item.clouds?.all || 0, item.wind?.speed || 0, item.main?.humidity || 0),
       bortleScale: "N/A",
       astroTwilight: weather?.astroTwilightBegin ? `Begins: ${new Date(weather.astroTwilightBegin).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}` : "N/A",
-      visibility: item.visibility
-        ? getVisibilityDescription(item.visibility * 1000)
-        : "N/A"
+      // Fixed: Use visibility value that's already been processed through getVisibilityDescription
+      visibility: visibilityValue
     };
   });
 

@@ -24,12 +24,12 @@ const ForecastCard = ({ time, date, temperature, windSpeed, seeing }) => {
             <h4 className="forecast-time">{time}</h4>
             <p className="forecast-date">{date}</p>
             <p className="forecast-temp">{temperature}</p>
-            <p className="forecast-wind">
+            <div className="forecast-wind">
                 <div className="wind-speed-label">Wind Speed</div>
                 <span className="wind-speed-value" style = {{color : getWindSpeedColor(windValue)}}>
                     {windValue}<span className="unit">{windUnit}</span>
                 </span>
-            </p>
+            </div>
             <div className="visibility-label">Seeing</div>
             <div className="visibility-value" style={{color : getVisibilityColor(seeing)}}>{seeing}</div>
         </div>
