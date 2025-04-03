@@ -1,27 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate hook
-import Navbar from './Navbar';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { app } from "../firebase/firebase"; // Import your Firebase app initialization
+import axios from 'axios'; // Import axios for HTTP requests
+import Navbar from './Navbar';
 
 const NewBlog = () => {
   
   const navigate = useNavigate();  // Initialize navigate for navigation
 
-  const [userEmail, setUserEmail] = useState(null);
 
+  const [userEmail, setUserEmail] = useState(null); // State variable to store user email
+
+  // State variables for the blog post form
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [camera, setCamera] = useState("");
-  const [loading, setLoading] = useState(false);
-
   const [username, setUsername] = useState("");
 
-  const [modalOpen, setModalOpen] = useState(false);
+  const [loading, setLoading] = useState(false); // Loading state for form submission
+  const [modalOpen, setModalOpen] = useState(false); // Modal state for image preview
 
   const auth = getAuth();
   const db = getFirestore(app);
@@ -35,6 +36,7 @@ const NewBlog = () => {
       }
     };
   
+    // To stop page refresh when submitting
     // Add the beforeunload event listener
     window.addEventListener('beforeunload', handleBeforeUnload);
   
@@ -101,23 +103,23 @@ const NewBlog = () => {
       // Get the image URL (path) returned from the server
       const uploadedImageUrl = response.data.imageUrl;
       
-      //const uploadedImageUrl = "test"
       // Step 2: Save the post data (title, content, image URL) in Firestore
       const postData = {
         title,
         content,
         camera,
-        user: userEmail, // Make sure this has a valid value
+        user: userEmail,
         imageUrl: uploadedImageUrl,
         timestamp: serverTimestamp(),
       };
       
 
-      console.log("Post data:", postData); // Log the post data to check its structure
+      //console.log("Post data:", postData);
       const blogPostRef = await addDoc(collection(db, "blogs"), postData);
-      console.log("Post saved with ID:", blogPostRef.id);
+      //console.log("Post saved with ID:", blogPostRef.id);
       
 
+      // Reset form variables
       setTitle('');
       setContent('');
       setCamera('');
@@ -127,8 +129,7 @@ const NewBlog = () => {
       alert('Post successfully submitted!');
 
       goToCommunityPage();
-
-
+      
     } catch (error) {
       console.error('Error uploading image or saving post:', error);
       //alert('Failed to upload image or save post.');

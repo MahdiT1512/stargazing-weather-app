@@ -1,24 +1,16 @@
 import React from 'react';
-import ForecastPage from './ForecastPage';
-import Navbar from './Navbar';
 import { useNavigate } from 'react-router-dom';  // Import useNavigate hook
 
 function HomePage() {
   const navigate = useNavigate();  // Initialize navigate for navigation
 
-  const [isForecastPage, setIsForecastPage] = React.useState(false);
-  const [defaultCity, setDefaultCity] = React.useState(''); 
-
   const handleGetStarted = () => {
     localStorage.setItem("defaultCity", "London"); // Save default city
-    navigate("/ForecastPage"); // Pass "London" as default
-    //setIsForecastPage(true);
-    //setDefaultCity('London'); 
+    navigate("/ForecastPage"); // Navigate to ForecastPage
   };
 
   return (
     <div className='all-container'> 
-      {!isForecastPage ? (
         <div className='homepage'>
           <div className='home-container'>
             <h1 className='home-title'>
@@ -32,9 +24,6 @@ function HomePage() {
             </button>
           </div>
         </div>
-      ) : (
-        <ForecastPage initialCity ={defaultCity} /> 
-      )}
     </div>
   );
 }

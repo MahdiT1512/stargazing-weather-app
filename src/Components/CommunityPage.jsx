@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { auth } from "../firebase/firebase";
+import { Link } from 'react-router-dom';
+import { auth, db } from "../firebase/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-import Navbar from './Navbar';
-import { Link } from 'react-router-dom'; // Import Link from React Router
-import SearchImg from '../Assets/Search.png';
-import { db } from '../firebase/firebase';  // Assuming you have a firebase.js file where Firebase is initialized
 import { collection, getDocs, query, orderBy } from 'firebase/firestore';
+import Navbar from './Navbar';
 
 const CommunityPage = () => {
-  console.log("DB", db);
+  // State variables to manage user email, username, posts, and modal state
   const [userEmail, setUserEmail] = useState(null);
-  const [username, setUsername] = useState("");
 
   const [posts, setPosts] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedImage, setSelectedImage] = useState(""); // Store clicked image
 
+  // Open the modal with the selected image URL
   const openModal = (imageUrl) => {
     setSelectedImage(imageUrl); 
     setModalOpen(true);
@@ -36,20 +34,16 @@ const CommunityPage = () => {
         
         // Update the state with the fetched posts
         setPosts(postsData);
+
       } catch (error) {
         console.error('Error fetching blog posts:', error);
       }
     };
 
-    fetchBlogPosts();  // Call the function to fetch posts
+    fetchBlogPosts();
   }, []);
-
-  useEffect(() => {
-    if (userEmail) {
-      setUsername(userEmail.split('@')[0]);
-    }
-  }, [userEmail]);
   
+  // Set up an authentication state listener to update userEmail
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -109,14 +103,14 @@ const CommunityPage = () => {
             <div className="post-header">
               <h2 className="post-title">{post.title}</h2>
               <div className="post-info">
-                <span className="post-user">by {username}</span>
+                <span className="post-user">by {post.user.split('@')[0]}</span>
                 <span className="post-date">
                   {new Date(post.timestamp.seconds * 1000).toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })}
                 </span>
               </div>
             </div>
       
-              {/* Camera and Telescope */}
+              {/* Camera */}
               <p className="post-camera">Taken with {post.camera}</p>
     
               {/* Description */}

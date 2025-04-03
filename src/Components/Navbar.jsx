@@ -6,9 +6,9 @@ import SignupModal from './SignupModal';
 import { useAuth } from '../contexts/authContext';
 import { doSignOut } from '../firebase/auth';
 
-const Navbar = ({currentPage, setCurrentPage }) => {
+const Navbar = () => {
   const [activeModal, setActiveModal] = useState(null); // 'login' or 'signup'
-  const {userLoggedIn} = useAuth();
+  const {userLoggedIn} = useAuth(); // Check if user is logged in
 
   return (
   <nav className="navbar">

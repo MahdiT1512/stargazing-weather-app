@@ -1,10 +1,9 @@
-// Import the functions you need from the SDKs you need
+// Firebase configuration and initialization
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth'; // Firebase Auth
-import { getFirestore } from 'firebase/firestore'; // Firestore
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
 
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyD54WR8KNiK5W9vcyFC7SD_oO5mUthj0JU",
   authDomain: "stargazing-feaaf.firebaseapp.com",

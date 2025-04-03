@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { doSignInWithEmailAndPassword } from '../firebase/auth';
-import { useAuth } from '../contexts/authContext';
 
 const LoginModal = ({ onClose, switchToSignup }) => {
-
-    const { userLoggedIn} = useAuth();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');

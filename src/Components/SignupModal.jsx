@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { doCreateUserWithEmailAndPassword } from '../firebase/auth';
 
 const SignupModal = ({ onClose, switchToLogin }) => {
+  // variables to manage user email, password, and modal state
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -11,6 +12,7 @@ const SignupModal = ({ onClose, switchToLogin }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Validate email and password
     if (password !== confirmPassword) {
         setError("Passwords don't match!");
         return;

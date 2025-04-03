@@ -4,7 +4,7 @@ import Moon from '../Assets/Moon Symbol.png';
 import Haze from '../Assets/Haze.png';
 import Eye from '../Assets/Icon.png';
 
-
+// Importing images for different weather conditions
 const iconArr = [Cloud, Moon, Haze, Eye];
 const ConditionCard = ({ title, value, subtitle, imgNum}) => {
   

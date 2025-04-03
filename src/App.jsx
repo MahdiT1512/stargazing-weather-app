@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import HomePage from "./Components/HomePage";
 import ForecastPage from "./Components/ForecastPage";
@@ -7,6 +7,8 @@ import EventsPage from "./Components/EventsPage";
 import NewBlog from "./Components/NewBlog";
 import "./style.css";
 
+
+// Setting up the main App component with routing
 const App = () => {
   return (
     <Router>

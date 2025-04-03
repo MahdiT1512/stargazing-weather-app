@@ -47,6 +47,7 @@ app.post('/upload', upload.single('image'), (req, res) => {
 });
 
 // Start the server
+// 5001 is an arbitrary port number; you can change it as needed (5000 is in already use on Mac)
 app.listen(5001, () => {
   console.log('Server running on http://localhost:5001');
 });
