@@ -8,7 +8,7 @@
    npm install cors  
 3) Run the project using npm start. It should open the website on localhost:3000 in your default browser.
 4) Open Command Prompt / Terminal and navigate to the folder directory
-5) Run the following command to start the backend: 
+5) Run the following command to start the backend:  
    node src/components/server.js
 6) The frontend and backend are now all running.
 
