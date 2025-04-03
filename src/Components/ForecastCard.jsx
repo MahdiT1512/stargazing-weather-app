@@ -2,8 +2,8 @@ import React from 'react';
 import './ForecastPage.css';
 
 const getWindSpeedColor = (speed) => {
-    if (speed > 25) return "#FF4F4F"; // Red
-    if (speed > 14) return "#FFD700"; // Yellow
+    if (speed > 16) return "#FF4F4F"; // Red
+    if (speed > 9) return "#FFD700"; // Yellow
     return "#32CD32";
 }
 

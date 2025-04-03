@@ -183,7 +183,7 @@
   .condition-value {
     color: #fff;
     font-family: Inter, sans-serif;
-    font-size: 3.125rem;
+    font-size: 2.5rem;
     font-weight: 700;
     line-height: normal;
   }
@@ -198,7 +198,7 @@
   color: #808080;
   text-align: center;
   font-family: Inter, sans-serif;
-  font-size: 0.9375rem; /* ~15px */
+  font-size: 0.9375rem; 
   font-weight: 700;
   line-height: normal;
   }
@@ -412,15 +412,15 @@
     line-height: normal;
   }
 
-  /* Styles for the overlay modal */
+  
 .details-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7); /* semi-transparent background */
-  z-index: 1000; /* ensure it overlays the page content */
+  background: rgba(0, 0, 0, 0.7); 
+  z-index: 1000; 
   display: flex;
   align-items: center;
   justify-content: center;
@@ -430,10 +430,10 @@
   background: #1b1f29;
   padding: 2rem;
   border-radius: 15px;
-  width: 100%; /* Adjusted to make it larger */
-  max-width: 800px; /* Increased max-width */
-  height: 100%; /* Set height equal to width */
-  max-height: 800px; /* Ensure height matches max-width */
+  width: 100%; 
+  max-width: 800px; 
+  height: 100%; 
+  max-height: 800px; 
   overflow-y: auto;
   position: relative;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
@@ -450,8 +450,7 @@
   cursor: pointer;
 }
 
-/* Add any additional styling to align with your existing design */
-  
+
 
   
   

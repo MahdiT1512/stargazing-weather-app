@@ -45,12 +45,14 @@ const ForecastPage = ({initialCity}) => {
   };
 
   const getVisibilityDescription = (visibility) => {
-    if (visibility >= 10000) return "Very clear";
-    if (visibility >= 6000) return "Good";
-    if (visibility >= 4000) return "Moderate";
-    if (visibility >= 1000) return "Poor";
-    return "Very poor";
-  };
+    console.log(visibility);
+    if (visibility >= 8000) return "Very Clear"; 
+    if (visibility >= 5000) return "Good";        
+    if (visibility >= 2000) return "Moderate";    
+    if (visibility >= 500) return "Poor";        
+    return "Very Poor";                           
+};
+  
 
   const fetchForecast = async (lat, lon) => {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
@@ -126,11 +128,11 @@ const ForecastPage = ({initialCity}) => {
     },
     "Visibility": {
       values: [
-        { value: "Very clear", subtitle: "Excellent visibility for stargazing" },
+        { value: "Very Clear", subtitle: "Excellent visibility for stargazing" },
         { value: "Good", subtitle: "Decent visibility for stargazing" },
         { value: "Moderate", subtitle: "Some atmospheric obstruction" },
         { value: "Poor", subtitle: "Limited stargazing visibility" },
-        { value: "Very poor", subtitle: "Viewing not recommended" },
+        { value: "Very Poor", subtitle: "Viewing not recommended" },
       ],
     },
     "Seeing": {

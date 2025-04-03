@@ -13,7 +13,7 @@ const App = () => {
       case "home":
         return <HomePage />;
       case "forecast":
-        return <ForecastPage />;
+        return <ForecastPage initialCity={'London'}/>;
       case "events":
         return <EventsPage/>;
       default:
