@@ -22,16 +22,17 @@
 3) Open the project folder on your PC in Visual Studio.  
 4) Open a new terminal and run the following commands:  
    npm install  
+
    npm install react-router-dom  
    npm install axios  
    npm install multer  
    npm install cors  
-5) Change the localhost references in your project to your PC's local IP address (e.g., http://192.168.1.10:3000).  
-6) Run the project using npm start on your PC.  
-7) Open Command Prompt/Terminal and navigate to the folder directory.  
-8) Run the following command to start the backend:  
+6) Change the localhost references in your project to your PC's local IP address (e.g., http://192.168.1.10:3000).  
+7) Run the project using npm start on your PC.  
+8) Open Command Prompt/Terminal and navigate to the folder directory.  
+9) Run the following command to start the backend:  
    node src/components/server.js  
-9) On your phone, open a browser and enter your PC's IP address with the port number (e.g., http://192.168.1.10:3000).  
+10) On your phone, open a browser and enter your PC's IP address with the port number (e.g., http://192.168.1.10:3000).  
 
 (In the event the port 3000 or 5001 is in use, change the port numbers in server.js)  
 (Ensure public > blogImages folders exist outside of src)
