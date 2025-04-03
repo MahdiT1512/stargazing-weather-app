@@ -5,10 +5,16 @@ import ForecastCard from './ForecastCard';
 import DetailedReport from './DetailedReport';
 import SearchImg from '../Assets/Search.png';
 
+// API keys and base URL for weather data
 const API_KEY = "bd122209090a4fd7ec889794a711eac3";
 const API_URL = `https://api.openweathermap.org/data/2.5/weather?units=metric&appid=${API_KEY}`;
 const WEATHERAPI_KEY = "a45fabf4f5b3470b8ef110626250104";
 
+/**
+ * Fetches current weather data for a specified city
+ * @param {string} city - City name to fetch weather for
+ * @returns {Object|null} Weather data object or null if fetch fails
+ */
 const fetchWeather = async (city) => {
   try {
     const response = await fetch(`${API_URL}&q=${city}`);
@@ -28,6 +34,12 @@ const fetchWeather = async (city) => {
   }
 }
 
+/**
+ * Fetches astronomical twilight data based on coordinates
+ * @param {number} lat - Latitude
+ * @param {number} lon - Longitude
+ * @returns {Object} Twilight timing data
+ */
 const fetchTwilightData = async (lat, lon) => {
   try {
     const response = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lon}&formatted=0`);
@@ -45,7 +57,13 @@ const fetchTwilightData = async (lat, lon) => {
   }
 };
 
+/**
+ * Main component for displaying weather forecast focused on stargazing conditions
+ * @param {Object} props - Component props
+ * @param {string} props.initialCity - Initial city to load forecast for
+ */
 const ForecastPage = ({initialCity}) => {
+  // State management
   const [forecastType, setForecastType] = useState("hourly");
   const [selectedForecast, setSelectedForecast] = useState(null);
   const [city, setCity] = useState(initialCity || "London, GB");
@@ -56,6 +74,14 @@ const ForecastPage = ({initialCity}) => {
   const [isTyping, setIsTyping] = useState(false);
   const [dropdownHeight, setDropdownHeight] = useState(0);
 
+  /**
+   * Calculates stargazing "seeing" conditions on a 1-5 scale
+   * based on cloud cover, wind speed, and humidity
+   * @param {number} cloud - Cloud cover percentage
+   * @param {number} wind - Wind speed
+   * @param {number} humidity - Humidity percentage
+   * @returns {string} Seeing rating on scale of 1/5 to 5/5
+   */
   const calculateSeeing = (cloud, wind, humidity) => {
     if (cloud > 75 || wind > 30 || humidity > 90) return "1/5";
     if (cloud > 50 || wind > 25 || humidity > 80) return "2/5";
@@ -64,6 +90,11 @@ const ForecastPage = ({initialCity}) => {
     return "5/5";
   };
 
+  /**
+   * Converts visibility in meters to a descriptive text
+   * @param {number} visibility - Visibility in meters
+   * @returns {string} Text description of visibility conditions
+   */
   const getVisibilityDescription = (visibility) => {
     if (visibility >= 10000) return "Very clear";
     if (visibility >= 6000) return "Good";
@@ -72,12 +103,22 @@ const ForecastPage = ({initialCity}) => {
     return "Very poor";
   };
 
+  /**
+   * Fetches 5-day forecast data for a location based on coordinates
+   * @param {number} lat - Latitude
+   * @param {number} lon - Longitude
+   */
   const fetchForecast = async (lat, lon) => {
     const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric`);
     const data = await response.json();
     setForecast(data.list || []);
   };
 
+  /**
+   * Fetches astronomy data (moon phase, moonrise, moonset)
+   * @param {string} city - City name
+   * @returns {Object} Astronomy data
+   */
   const fetchAstronomyData = async (city) => {
     const today = new Date().toISOString().split('T')[0];
     const response = await fetch(
@@ -91,7 +132,12 @@ const ForecastPage = ({initialCity}) => {
     };
   };
 
+  /**
+   * Fetches city suggestions based on user input
+   * @param {string} input - User input for city search
+   */
   const fetchSuggestions = async (input) => {
+    // Don't fetch suggestions for very short inputs
     if (!input || input.length < 2) {
       setSuggestions([]);
       setShowSuggestions(false);
@@ -114,7 +160,7 @@ const ForecastPage = ({initialCity}) => {
     }
   };
 
-  // Debounce function to limit API calls while typing
+  // Debounce effect to limit API calls while typing in search
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
       if (isTyping && city.length >= 2) {
@@ -136,23 +182,36 @@ const ForecastPage = ({initialCity}) => {
     }
   }, [showSuggestions, suggestions]);
 
+  // Load default city (London) on component mount
   useEffect(() => {
     handleSearch("London, GB");
   }, []);
 
+  /**
+   * Handles search submission and fetches all related weather data
+   * @param {string} searchCity - City to search for (defaults to current city state)
+   */
   const handleSearch = async (searchCity = city) => {
     if (!searchCity) return;
     setShowSuggestions(false);
     setDropdownHeight(0);
+    
+    // First fetch basic weather data
     const data = await fetchWeather(searchCity);
+    
+    // Fetch astronomy data (moon phases, etc.)
     const astronomy = await fetchAstronomyData(searchCity);
+    
+    // Get coordinates for the city to fetch additional data
     const locationResponse = await fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${searchCity}&limit=1&appid=${API_KEY}`);
     const locationData = await locationResponse.json();
     if (!locationData || !locationData[0]) return;
     const { lat, lon } = locationData[0];
 
+    // Fetch twilight data using coordinates
     const twilight = await fetchTwilightData(lat, lon);
 
+    // Combine all data sets
     if (data) {
       setWeather({
         ...data,
@@ -160,10 +219,12 @@ const ForecastPage = ({initialCity}) => {
         ...twilight,
       });
 
+      // Get forecast data (hourly and daily)
       await fetchForecast(lat, lon);
     }
   };
 
+  // Define current day condition cards data
   const currentDayConditions = [
     { title: "Cloud Cover", value: weather?.clouds?.all || 0 },
     { title: "Moon Phase", value: weather?.moonPhase || "Unknown" },
@@ -171,6 +232,7 @@ const ForecastPage = ({initialCity}) => {
     { title: "Seeing", value: calculateSeeing(weather?.clouds?.all || 0, weather?.windSpeed || 0, weather?.humidity || 0) },
   ];
 
+  // Mappings for condition card details
   const conditionMappings = {
     "Cloud Cover": {
       values: [
@@ -213,6 +275,12 @@ const ForecastPage = ({initialCity}) => {
     },
   };
 
+  /**
+   * Get detailed information for a condition card
+   * @param {string} title - Condition title
+   * @param {string|number} value - Current condition value
+   * @returns {Object} Details with subtitle and formatted value
+   */
   const getConditionDetails = (title, value) => {
     const mapping = conditionMappings[title];
     if (!mapping) return { subtitle: "No data available" };
@@ -229,6 +297,7 @@ const ForecastPage = ({initialCity}) => {
       : { subtitle: "No data available", value: formattedValue };
   };
 
+  // Process hourly forecast data from API response
   const hourlyForecastData = forecast.slice(0, 4).map(item => {
     const date = new Date(item.dt * 1000);
     return {
@@ -252,11 +321,14 @@ const ForecastPage = ({initialCity}) => {
     };
   });
 
+  // Process daily forecast data by grouping hourly forecasts by day
   const dailyMap = new Map();
   forecast.forEach(item => {
     const dateKey = new Date(item.dt * 1000).toLocaleDateString();
     if (!dailyMap.has(dateKey)) dailyMap.set(dateKey, item);
   });
+  
+  // Format weekly forecast data
   const weeklyForecastData = Array.from(dailyMap.values()).slice(0, 4).map(item => {
     const date = new Date(item.dt * 1000);
     return {
@@ -280,16 +352,25 @@ const ForecastPage = ({initialCity}) => {
     };
   });
 
+  // Choose which forecast data to display based on selected type (hourly/weekly)
   const forecastData = forecastType === 'hourly' ? hourlyForecastData : weeklyForecastData;
 
+  /**
+   * Handle user selecting a forecast card to view details
+   * @param {Object} forecast - Selected forecast data
+   */
   const handleForecastSelect = (forecast) => {
     setSelectedForecast(forecast);
   };
 
+  /**
+   * Close the detailed forecast overlay
+   */
   const closeOverlay = () => {
     setSelectedForecast(null);
   };
 
+  // Mapping for condition card images
   const fixedImageMap = {
     "Cloud Cover": 0,
     "Moon Phase": 1,
@@ -297,14 +378,20 @@ const ForecastPage = ({initialCity}) => {
     "Seeing": 3,
   };
 
-  // Function to handle input change
+  /**
+   * Handle search input change
+   * @param {Event} e - Input change event
+   */
   const handleInputChange = (e) => {
     const input = e.target.value;
     setCity(input);
     setIsTyping(true);
   };
 
-  // Function to handle suggestion click
+  /**
+   * Handle when user clicks on a city suggestion
+   * @param {Object} suggestion - City suggestion data
+   */
   const handleSuggestionClick = (suggestion) => {
     const cityName = `${suggestion.name}, ${suggestion.country}`;
     setCity(cityName);
@@ -313,7 +400,7 @@ const ForecastPage = ({initialCity}) => {
     handleSearch(cityName);
   };
 
-  // Handle clicking outside to close suggestions
+  // Effect to close suggestions dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (showSuggestions && !event.target.closest('.search-container')) {
@@ -328,9 +415,11 @@ const ForecastPage = ({initialCity}) => {
     };
   }, [showSuggestions]);
 
+  // Component render
   return (
     <div className="forecast-page">
       <Navbar />
+      {/* Search section with city input and suggestions */}
       <div className="search-section">
         <div className="search-container">
           <div className="search-bar">
@@ -349,6 +438,7 @@ const ForecastPage = ({initialCity}) => {
             <img className="search-img" src={SearchImg} alt="Search" onClick={() => handleSearch()} />
           </div>
           
+          {/* City suggestions dropdown */}
           {showSuggestions && suggestions.length > 0 && (
             <ul className="suggestions-list">
               {suggestions.map((suggestion, index) => (
@@ -366,9 +456,10 @@ const ForecastPage = ({initialCity}) => {
         </div>
       </div>
 
-      {/* Push-down spacer that dynamically changes height */}
+      {/* Dynamic spacer that adjusts based on suggestions dropdown height */}
       <div className="dropdown-spacer" style={{ height: `${dropdownHeight}px`, transition: 'height 0.3s ease-in-out' }}></div>
 
+      {/* Stargazing conditions section with condition cards */}
       <section className="stargazing-conditions">
         <h2>Stargazing Conditions</h2>
         <div className="conditions-cards">
@@ -390,12 +481,15 @@ const ForecastPage = ({initialCity}) => {
         </div>
       </section>
 
+      {/* Tonight's conditions section with forecast tabs and cards */}
       <section className="tonights-conditions">
         <h2>Tonight's Conditions</h2>
+        {/* Toggle between hourly and weekly forecast views */}
         <div className="forecast-tabs">
           <button onClick={() => setForecastType("hourly")} className={forecastType === "hourly" ? "active" : ""}>Hourly Forecast</button>
           <button onClick={() => setForecastType("weekly")} className={forecastType === "weekly" ? "active" : ""}>Weekly Forecast</button>
         </div>
+        {/* Forecast cards grid */}
         <div className="forecast-cards">
           {forecastData.map((forecast, index) => (
             <div key={index} onClick={() => handleForecastSelect(forecast)}>
@@ -405,6 +499,7 @@ const ForecastPage = ({initialCity}) => {
         </div>
       </section>
 
+      {/* Detailed forecast overlay (appears when a forecast card is clicked) */}
       {selectedForecast && (
         <div className="details-overlay">
           <div className="overlay-content">

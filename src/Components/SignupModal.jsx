@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './LoginModal.css'; // Reusing the same CSS
 import { doCreateUserWithEmailAndPassword } from '../firebase/auth';
 
 const SignupModal = ({ onClose, switchToLogin }) => {

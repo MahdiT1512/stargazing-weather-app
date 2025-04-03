@@ -1066,3 +1066,169 @@ html, body {
   font-weight: 700;
   color: #fff;
 }
+
+/* ==================== RESPONSIVE STYLES ==================== */
+@media screen and (max-width: 768px) {
+  /* Navigation adjustments */
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem 0;
+  }
+
+  .logo {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .nav-links {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    width: 100%;
+  }
+
+  .nav-links a {
+    padding: 0.5rem;
+  }
+
+  /* Homepage responsive adjustments */
+  .home-container {
+    width: 100%;
+    padding: 1rem;
+    height: auto;
+  }
+
+  .home-title {
+    width: 100%;
+    padding-right: 0;
+    font-size: 2rem;
+  }
+
+  .home-description {
+    width: 100%;
+    padding: 1rem 0;
+  }
+
+  /* Search components */
+  .search-container {
+    width: 90%;
+  }
+
+  /* Community posts */
+  .post-container {
+    width: 90%;
+  }
+
+  .post-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-title {
+    max-width: 100%;
+  }
+
+  .post-info {
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .post-user, .post-date {
+    text-align: left;
+  }
+
+  /* Post creation components */
+  .create-post-container {
+    width: 90%;
+  }
+
+  .file-input-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .file-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  /* Events components */
+  .events-container {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .events-container h1 {
+    font-size: 2rem;
+  }
+
+  /* Forecast components */
+  .conditions-cards {
+    width: 100%;
+    padding: 0 1rem;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .condition-card {
+    width: 90%;
+    max-width: 100%;
+  }
+
+  .forecast-cards {
+    padding: 0 1rem;
+    justify-content: center;
+    gap: 2rem;
+  }
+
+  .forecast-card {
+    width: 90%;
+    max-width: 100%;
+  }
+
+  /* Detailed report */
+  .detailed-report {
+    width: 90%;
+  }
+  
+  .dr-row {
+    flex-direction: column;
+  }
+  
+  /* Modal adjustments */
+  .overlay-content {
+    width: 90%;
+    max-height: 80vh;
+    padding: 1rem;
+  }
+}
+
+/* Small phones */
+@media screen and (max-width: 480px) {
+  /* Further adjustments for very small screens */
+  .home-title {
+    font-size: 1.5rem;
+  }
+  
+  .get-started-btn {
+    width: 90%;
+    height: auto;
+    padding: 1rem;
+  }
+  
+  .condition-info {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .condition-value {
+    font-size: 2.5rem;
+  }
+  
+  .login-modal {
+    width: 90%;
+  }
+}
