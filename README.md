@@ -12,7 +12,6 @@
 6) Open Command Prompt / Terminal and navigate to the folder directory
 7) Run the following command to start the backend:  
    node src/components/server.js
-8) Create a folder 'blogImages' inside the 'public' folder
 
 NOTE: In the event the port 3000 or 5001 is in use, change the port numbers in server.js  
 NOTE: When uploading a blog, on some browsers like Chrome, it will ask 'Are you sure want to reload the page'. Make sure you click 'cancel' to ensure successful upload.
@@ -34,8 +33,7 @@ NOTE: When uploading a blog, on some browsers like Chrome, it will ask 'Are you 
 8) Open Command Prompt/Terminal and navigate to the folder directory.  
 9) Run the following command to start the backend:  
    node src/components/server.js  
-10) Create a folder 'blogImages' inside the 'public' folder
-12) On your phone, open a browser and enter your PC's IP address with the port number (e.g., http://192.168.1.10:3000).  
+10) On your phone, open a browser and enter your PC's IP address with the port number (e.g., http://192.168.1.10:3000).  
 
 NOTE: In the event the port 3000 or 5001 is in use, change the port numbers in server.js  
 NOTE: When uploading a blog, on some browsers like Chrome, it will ask 'Are you sure want to reload the page'. Make sure you click 'cancel' to ensure successful upload.
