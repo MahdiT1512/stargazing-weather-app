@@ -1,3 +1,5 @@
+# Ensure Node.js is installed
+
 # Instructions to run on PC
 1) Open the project folder in Visual Studio
 2) Open a new terminal and run the following commands:  
@@ -17,7 +19,7 @@ NOTE: In the event the port 3000 or 5001 is in use, change the port numbers in s
 NOTE: When uploading a blog, on some browsers like Chrome, it will ask 'Are you sure want to reload the page'. Make sure you click 'cancel' to ensure successful upload.
 
 
-# Instructions to run on Phone  
+# Instructions to run on Mobile  
 1) Ensure your phone is connected to the same local network as your PC.  
 2) Get your PC's local IP address (e.g., 192.168.1.10).  
 3) Open the project folder on your PC in Visual Studio.  
