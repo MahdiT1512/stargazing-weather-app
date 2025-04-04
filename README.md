@@ -24,8 +24,10 @@
 2) Get your PC's local IP address (e.g., 192.168.1.10).  
 3) Open the project folder on your PC in Visual Studio.  
 4) Open a new terminal and run the following commands:  
-   npm install  
+   npm install
 
+   npm install firebase
+   
    npm install react-router-dom  
    npm install axios  
    npm install multer  
