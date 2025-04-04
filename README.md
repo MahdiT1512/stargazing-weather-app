@@ -1,5 +1,3 @@
-# Ensure Node.js is installed
-
 # Instructions to run on PC
 1) Open the project folder in Visual Studio
 2) Open a new terminal and run the following commands:  
@@ -13,8 +11,9 @@
    It should open the website on localhost:3000 in your default browser.
 6) Open Command Prompt / Terminal and navigate to the folder directory
 7) Run the following command to start the backend:  
-   node src/components/server.js
+   node src/components/server.js  
 
+NOTE: You made need to install Node.js  
 NOTE: In the event the port 3000 or 5001 is in use, change the port numbers in server.js  
 NOTE: When uploading a blog, on some browsers like Chrome, it will ask 'Are you sure want to reload the page'. Make sure you click 'cancel' to ensure successful upload.
 
@@ -37,5 +36,6 @@ NOTE: When uploading a blog, on some browsers like Chrome, it will ask 'Are you 
    node src/components/server.js  
 10) On your phone, open a browser and enter your PC's IP address with the port number (e.g., http://192.168.1.10:3000).  
 
+NOTE: You made need to install Node.js  
 NOTE: In the event the port 3000 or 5001 is in use, change the port numbers in server.js  
 NOTE: When uploading a blog, on some browsers like Chrome, it will ask 'Are you sure want to reload the page'. Make sure you click 'cancel' to ensure successful upload.
