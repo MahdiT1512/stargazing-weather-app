@@ -2,7 +2,9 @@
 1) Open the project folder in Visual Studio
 2) Open a new terminal and run the following commands:  
    npm install
+   
    npm install firebase
+   
    npm install react-router-dom  
    npm install axios  
    npm install multer  
